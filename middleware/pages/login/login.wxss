@@ -1,0 +1,47 @@
+.container { padding: 40rpx; display: flex; flex-direction: column; align-items: center; }
+.title { font-size: 48rpx; font-weight: bold; margin-top: 100rpx; margin-bottom: 60rpx; color: #333; }
+
+.mode-tabs {
+  display: flex;
+  width: 100%;
+  background: #f0f1f3;
+  border-radius: 12rpx;
+  padding: 8rpx;
+  margin-bottom: 50rpx;
+}
+.mode-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #6b7280;
+  padding: 14rpx 0;
+  border-radius: 10rpx;
+}
+.mode-tab-active {
+  background: #ffffff;
+  color: #07C160;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.form { width: 100%; }
+.input { border: 1px solid #ddd; border-radius: 12rpx; padding: 24rpx; margin-bottom: 30rpx; font-size: 32rpx; background: #fff; }
+.btn { margin-top: 20rpx; width: 100%; border-radius: 12rpx; }
+
+.btn-wx {
+  margin-top: 24rpx;
+  width: 100%;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  background: #ffffff;
+  color: #07C160;
+  border: 1rpx solid #07C160;
+}
+.btn-wx::after { border: none; }
+
+.mode-tip {
+  margin-top: 32rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #9ca3af;
+}

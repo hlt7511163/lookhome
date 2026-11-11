@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="title">LookHome 租客端</view>
+
+  <!-- 登录模式切换 -->
+  <view class="mode-tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="mode-tab {{mode === item.key ? 'mode-tab-active' : ''}}"
+      data-mode="{{item.key}}"
+      bindtap="switchMode"
+    >{{item.text}}</view>
+  </view>
+
+  <!-- 管理员登录（原有）-->
+  <view class="form" wx:if="{{mode === 'admin'}}">
+    <input class="input" placeholder="请输入账号" data-field="username" bindinput="onInput" />
+    <input class="input" placeholder="请输入密码" password="true" data-field="password" bindinput="onInput" />
+    <button class="btn" type="primary" loading="{{submitting}}" bindtap="handleLogin">登 录</button>
+    <view class="mode-tip">管理员 / 房东后台入口</view>
+  </view>
+
+  <!-- 租客登录（手机号 + 身份证）-->
+  <view class="form" wx:elif="{{mode === 'tenant'}}">
+    <input class="input" type="number" maxlength="11" placeholder="请输入手机号" data-field="phone" bindinput="onInput" />
+    <input class="input" placeholder="请输入身份证号" data-field="idCard" bindinput="onInput" />
+    <button class="btn" type="primary" loading="{{submitting}}" bindtap="handleTenantLogin">登 录</button>
+    <button class="btn-wx" loading="{{submitting}}" bindtap="handleWxLogin">微信一键登录</button>
+    <view class="mode-tip">未注册？切到「租客注册」标签完成实名注册</view>
+  </view>
+
+  <!-- 租客注册 -->
+  <view class="form" wx:else>
+    <input class="input" placeholder="请输入姓名" data-field="regName" bindinput="onInput" />
+    <input class="input" type="number" maxlength="11" placeholder="请输入手机号" data-field="phone" bindinput="onInput" />
+    <input class="input" placeholder="请输入身份证号" data-field="idCard" bindinput="onInput" />
+    <button class="btn" type="primary" loading="{{submitting}}" bindtap="handleRegister">注 册</button>
+    <view class="mode-tip">实名注册后由房东审核；若房东已录入你的资料，注册即自动绑定</view>
+  </view>
+</view>

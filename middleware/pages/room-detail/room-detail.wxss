@@ -1,0 +1,38 @@
+.room-head {
+  margin: 24rpx;
+  border-radius: 20rpx;
+  padding: 44rpx 32rpx;
+  color: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.25);
+}
+.head-vacant { background: linear-gradient(135deg, #07C160 0%, #04a94d 100%); }
+.head-rented { background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%); box-shadow: none; }
+.rh-title { font-size: 30rpx; opacity: 0.92; }
+.rh-status {
+  display: inline-block;
+  font-size: 22rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 8rpx;
+  padding: 4rpx 16rpx;
+  margin: 12rpx 0;
+}
+.rh-rent { font-size: 68rpx; font-weight: 700; }
+.rh-unit { font-size: 26rpx; font-weight: 400; opacity: 0.85; }
+.rh-sub { font-size: 24rpx; opacity: 0.85; margin-top: 8rpx; }
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  font-size: 26rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { color: #6b7280; }
+
+.rented-tip-full {
+  flex: 1;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 26rpx;
+}

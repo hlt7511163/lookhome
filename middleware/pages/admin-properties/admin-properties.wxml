@@ -1,0 +1,51 @@
+<view class="page">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">项目 {{visibleProperties.length}} 个 · 房间 {{visibleRooms.length}} 间</view>
+
+  <!-- 项目卡片 -->
+  <view class="prop-card" wx:for="{{visibleProperties}}" wx:key="id">
+    <view class="prop-head">
+      <text class="prop-name">{{item.name}}</text>
+      <text class="prop-vacant">{{item.vacant_count}} 套空置</text>
+    </view>
+    <view class="prop-address">{{item.address || '暂无地址'}}</view>
+    <view class="prop-stat">共 {{item.room_count}} 套房间</view>
+  </view>
+
+  <!-- 房间列表 -->
+  <view class="card">
+    <view class="card-title">
+      房间列表
+      <text class="title-stat">{{statLine}}</text>
+    </view>
+    <view class="empty" wx:if="{{visibleRooms.length === 0 && keyword}}">没有匹配「{{keyword}}」的房间</view>
+    <view class="empty" wx:elif="{{rooms.length === 0}}">暂无房间</view>
+    <view class="room-row" wx:for="{{visibleRooms}}" wx:key="id">
+      <view class="room-left">
+        <text class="room-no">{{item.room_no}}</text>
+        <text class="tag {{item.statusClass}} room-tag">{{item.statusText}}</text>
+      </view>
+      <view class="room-mid">
+        <text class="room-prop">{{item.property_name}}</text>
+        <text class="room-sub">{{item.layout}} · {{item.area}}㎡ · ¥{{item.ref_rent}}/月</text>
+        <text wx:if="{{item.tenant_name}}" class="room-tenant">租客：{{item.tenant_name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

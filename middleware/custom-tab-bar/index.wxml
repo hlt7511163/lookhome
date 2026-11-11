@@ -1,0 +1,16 @@
+<view class="tabbar">
+  <view
+    wx:for="{{items}}"
+    wx:key="path"
+    class="tab-item {{selected === index ? 'active' : ''}}"
+    data-index="{{index}}"
+    data-path="{{item.path}}"
+    bindtap="onTabTap"
+  >
+    <view class="tab-icon-wrap">
+      <text class="tab-icon">{{item.icon}}</text>
+      <view wx:if="{{item.badge && unread > 0}}" class="tab-badge">{{unread > 99 ? '99+' : unread}}</view>
+    </view>
+    <text class="tab-text">{{item.text}}</text>
+  </view>
+</view>

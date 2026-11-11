@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "缴费提醒",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
+}

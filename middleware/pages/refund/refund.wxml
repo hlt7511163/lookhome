@@ -1,0 +1,43 @@
+<view class="page">
+  <!-- 申请表单 -->
+  <view class="card" wx:if="{{contract}}">
+    <view class="card-title">申请退押金</view>
+    <view class="info-row"><text class="info-label">合同房间</text><text>{{contract.property_name}} · {{contract.room_no}}</text></view>
+    <view class="info-row"><text class="info-label">合同到期日</text><text>{{contract.end_date}}</text></view>
+    <view class="info-row"><text class="info-label">押金金额</text><text class="amount">¥{{contract.deposit}}</text></view>
+
+    <view class="form-item">
+      <view class="form-label">退款金额（默认全额押金）</view>
+      <view class="amount-row">
+        <input class="modal-input" type="digit" placeholder="请输入退款金额" value="{{amount}}" bindinput="onAmountInput" />
+        <button class="fill-btn" bindtap="fillDeposit">全额</button>
+      </view>
+    </view>
+    <view class="form-item">
+      <view class="form-label">申请说明（可选）</view>
+      <textarea class="remark-input" placeholder="如：合同已到期，费用已结清" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
+    </view>
+    <button class="btn-primary" loading="{{submitting}}" bindtap="submitApply">提交退押金申请</button>
+    <view class="rule-tip">规则：合同已到期且无未缴账单方可申请；房东同意后退款原路返回，合同自动解除。</view>
+  </view>
+
+  <view class="card" wx:elif="{{!contract}}">
+    <view class="empty">当前没有生效合同，无需退押金</view>
+  </view>
+
+  <!-- 退款记录 -->
+  <view class="card" wx:if="{{refunds.length > 0}}">
+    <view class="card-title">退款记录</view>
+    <view class="refund-row" wx:for="{{refunds}}" wx:key="id">
+      <view class="rf-left">
+        <text class="rf-amount">¥{{item.amount}}</text>
+        <text class="tag {{item.statusClass}} rf-status">{{item.statusText}}</text>
+      </view>
+      <view class="rf-right">
+        <text class="rf-room">{{item.property_name}} · {{item.room_no}}</text>
+        <text class="rf-time">{{item.created_at}}</text>
+        <text wx:if="{{item.apply_remark}}" class="rf-remark">「{{item.apply_remark}}」</text>
+      </view>
+    </view>
+  </view>
+</view>

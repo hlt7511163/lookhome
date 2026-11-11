@@ -1,0 +1,43 @@
+<view class="page">
+  <view class="warn-card" wx:if="{{!supported}}">
+    <text class="warn-text">⚠️ 服务端未返回 contract_template 字段：可先看模板内容，但保存无法生效。请先在服务器部署 settings 补丁（GET 响应与 PUT 白名单增加 contract_template，PUT 改为 upsert）后再保存。</text>
+  </view>
+
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">合同模板</view>
+      <text class="state-pill {{isDefault ? 'state-default' : 'state-custom'}}">{{isDefault ? '内置默认模板' : '自定义模板'}}</text>
+    </view>
+    <view class="tpl-desc">租客签约时按此模板生成合同全文，{占位符} 会自动替换为实际信息。保存后对新签约立即生效，已生成的合同不受影响。</view>
+    <textarea
+      class="tpl-input"
+      value="{{editorText}}"
+      bindinput="onInput"
+      placeholder="请输入合同模板内容，可使用 {tenant_name} 等占位符"
+      maxlength="20000"
+    />
+    <view class="tpl-foot">
+      <text class="tpl-hint">{{isDefault ? '下方为系统内置模板，直接保存会把它固化为自定义模板' : '当前为已保存的自定义模板'}}</text>
+      <text class="tpl-len">{{len}} 字</text>
+    </view>
+  </view>
+
+  <view class="btn-row">
+    <view class="btn btn-ghost" bindtap="togglePreview">{{showPreview ? '关闭预览' : '预览'}}</view>
+    <view class="btn btn-ghost" bindtap="resetDefault">恢复内置模板</view>
+    <view class="btn btn-solid" bindtap="save">{{saving ? '保存中...' : '保存'}}</view>
+  </view>
+
+  <view class="card" wx:if="{{showPreview}}">
+    <view class="card-title">预览（示例数据：阳光家园 888 室 / 张伟）</view>
+    <view class="preview-text">{{previewText}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">可用占位符</view>
+    <view class="ph-list">
+      <text class="ph" wx:for="{{placeholders}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="tpl-desc">未识别的占位符将原样保留，不会报错。</view>
+  </view>
+</view>

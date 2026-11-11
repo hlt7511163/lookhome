@@ -1,0 +1,140 @@
+/* 全局样式：LookHome 租客端/管理端 */
+page {
+  background: #f5f7fa;
+  font-size: 28rpx;
+  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* 通用卡片 */
+.card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 列表单元格 */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26rpx 28rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #f3f4f6;
+  font-size: 28rpx;
+}
+.cell:last-child { border-bottom: none; }
+
+/* 主按钮 */
+.btn-primary {
+  background: #07C160 !important;
+  color: #ffffff !important;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+}
+.btn-primary[disabled] {
+  background: #9ca3af !important;
+  color: #ffffff !important;
+}
+
+/* 状态标签 */
+.tag {
+  display: inline-block;
+  padding: 2rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  line-height: 34rpx;
+}
+.st-unpaid { background: #fff7e6; color: #d48806; }
+.st-paid { background: #f6ffed; color: #389e0d; }
+.st-overdue { background: #fff1f0; color: #cf1322; }
+.st-void { background: #f5f5f5; color: #8c8c8c; }
+.st-info { background: #e6f4ff; color: #0958d9; }
+.st-warn { background: #fff7e6; color: #d48806; }
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  color: #9ca3af;
+  padding: 120rpx 0;
+  font-size: 26rpx;
+}
+
+/* 表单 */
+.form-item {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 24rpx;
+}
+.form-label {
+  font-size: 26rpx;
+  color: #6b7280;
+  margin-bottom: 16rpx;
+}
+
+/* 金额 */
+.amount { font-weight: 600; }
+.amount-red { color: #cf1322; font-weight: 600; }
+.amount-green { color: #389e0d; font-weight: 600; }
+
+/* 底部操作栏 */
+.footer-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: #ffffff;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20rpx;
+  align-items: center;
+}
+.footer-bar .btn-primary { flex: 1; margin: 0; }
+
+/* 给底部操作栏留位 */
+.has-footer { padding-bottom: 160rpx; }
+
+/* 加载动画占位 */
+.skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: sk 1.2s infinite;
+  border-radius: 8rpx;
+}
+@keyframes sk {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ===== 列表搜索栏（各列表页共用） ===== */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  margin: 20rpx 24rpx 0;
+  padding: 16rpx 24rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #eef0f4;
+}
+.search-icon { font-size: 26rpx; color: #9ca3af; margin-right: 12rpx; }
+.search-input {
+  flex: 1;
+  font-size: 27rpx;
+  color: #1f2937;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.search-clear {
+  color: #9ca3af;
+  font-size: 26rpx;
+  padding: 0 8rpx 0 16rpx;
+}
+.search-tip {
+  font-size: 22rpx;
+  color: #9ca3af;
+  padding: 12rpx 32rpx 0;
+}

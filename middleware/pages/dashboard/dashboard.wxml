@@ -1,0 +1,121 @@
+<view class="page" wx:if="{{stats}}">
+  <!-- 核心指标（两行两列） -->
+  <view class="stat-grid">
+    <view class="stat-cell">
+      <view class="stat-card sc-red">
+        <view class="stat-value">{{stats.outstandingText}}</view>
+        <view class="stat-label">本月应收（元）</view>
+      </view>
+    </view>
+    <view class="stat-cell">
+      <view class="stat-card sc-green">
+        <view class="stat-value">{{stats.collectedText}}</view>
+        <view class="stat-label">本月实收（元）</view>
+      </view>
+    </view>
+    <view class="stat-cell">
+      <view class="stat-card sc-orange">
+        <view class="stat-value">{{stats.overdueText}}</view>
+        <view class="stat-label">逾期金额（元）</view>
+      </view>
+    </view>
+    <view class="stat-cell">
+      <view class="stat-card sc-blue">
+        <view class="stat-value">{{stats.rooms.rent_rate}}%</view>
+        <view class="stat-label">出租率</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 房源概况 -->
+  <view class="card">
+    <view class="card-title">房源概况</view>
+    <view class="room-row">
+      <view class="room-stat">
+        <text class="rs-num">{{stats.rooms.total}}</text>
+        <text class="rs-label">总房间</text>
+      </view>
+      <view class="room-stat">
+        <text class="rs-num rs-green">{{stats.rooms.rented}}</text>
+        <text class="rs-label">在租</text>
+      </view>
+      <view class="room-stat">
+        <text class="rs-num rs-orange">{{stats.rooms.vacant}}</text>
+        <text class="rs-label">空置</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待办 -->
+  <view class="card">
+    <view class="card-title">待办提醒</view>
+    <view class="cell" bindtap="goTenants">
+      <text>👥 待审核租客</text>
+      <view>
+        <text class="todo-num" wx:if="{{stats.tenant_pending > 0}}">{{stats.tenant_pending}}</text>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
+    <view class="cell" bindtap="goApplications">
+      <text>✅ 待审核签约</text>
+      <view>
+        <text class="todo-num" wx:if="{{appPending > 0}}">{{appPending}}</text>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
+    <view class="cell" bindtap="goBills">
+      <text>📋 逾期账单</text>
+      <view>
+        <text class="todo-num" wx:if="{{stats.overdue > 0}}">¥{{stats.overdueText}}</text>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
+    <view class="cell" bindtap="goBills">
+      <text>📢 推送账单给租客</text>
+      <view>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
+    <view class="cell" bindtap="goRooms">
+      <text>🏢 空置房源</text>
+      <view>
+        <text class="todo-num" wx:if="{{stats.rooms.vacant > 0}}">{{stats.rooms.vacant}} 套</text>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 实收趋势（近 6 个月）-->
+  <view class="card" wx:if="{{trend.length > 0}}">
+    <view class="card-title">实收趋势（近 6 个月）</view>
+    <view class="trend-row" wx:for="{{trend}}" wx:key="ym">
+      <text class="trend-label">{{item.ym}}</text>
+      <view class="trend-bar-wrap">
+        <view class="trend-bar" style="width: {{item.width}}%;"></view>
+      </view>
+      <text class="trend-value">¥{{item.v}}</text>
+    </view>
+  </view>
+
+  <!-- 账号与设置（管理端「我的」入口：账号信息/修改密码/合同模板/退出登录） -->
+  <view class="card">
+    <view class="card-title">账号与设置</view>
+    <view class="cell" bindtap="goContracts">
+      <text>📑 合同管理 / 编辑合同</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="goContractTemplate">
+      <text>📝 合同模板</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="goProfile">
+      <text>👤 我的账号</text>
+      <text class="cell-arrow">›</text>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>
+
+<view wx:else class="empty">加载中...</view>

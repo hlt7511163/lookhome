@@ -1,0 +1,72 @@
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 8rpx solid #07C160;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14rpx 0;
+  font-size: 26rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.info-label { color: #6b7280; }
+
+.amount-row { display: flex; gap: 16rpx; align-items: center; }
+.amount-row .modal-input { flex: 1; }
+.fill-btn {
+  font-size: 24rpx;
+  background: #f0fdf4;
+  color: #07C160;
+  border: 1rpx solid #07C160;
+  border-radius: 10rpx;
+  padding: 14rpx 24rpx;
+  line-height: 1.6;
+  margin: 0;
+}
+.fill-btn::after { border: none; }
+
+.modal-input {
+  border: 1rpx solid #e5e7eb;
+  border-radius: 10rpx;
+  padding: 18rpx 20rpx;
+  font-size: 30rpx;
+}
+.remark-input {
+  width: 100%;
+  min-height: 140rpx;
+  border: 1rpx solid #e5e7eb;
+  border-radius: 10rpx;
+  padding: 18rpx 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.rule-tip {
+  margin-top: 20rpx;
+  font-size: 22rpx;
+  color: #9ca3af;
+  line-height: 1.6;
+  background: #fafafa;
+  border-radius: 10rpx;
+  padding: 16rpx;
+}
+
+.refund-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.refund-row:last-child { border-bottom: none; }
+.rf-left { display: flex; flex-direction: column; gap: 8rpx; }
+.rf-amount { font-size: 34rpx; font-weight: 700; }
+.rf-status { align-self: flex-start; }
+.rf-right { text-align: right; display: flex; flex-direction: column; gap: 6rpx; }
+.rf-room { font-size: 26rpx; color: #374151; }
+.rf-time { font-size: 22rpx; color: #9ca3af; }
+.rf-remark { font-size: 22rpx; color: #6b7280; }

@@ -1,0 +1,64 @@
+<view class="page">
+  <!-- 合同模板入口（新签约用哪份模板） -->
+  <view class="card tpl-entry" bindtap="goTemplate">
+    <view class="tpl-entry-left">
+      <view class="tpl-entry-title">📝 合同模板</view>
+      <view class="tpl-entry-desc">新签约使用的合同全文模板</view>
+    </view>
+    <text class="cell-arrow">›</text>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      placeholder-class="search-ph"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="filter-bar">
+    <view
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="filter-item {{filter === item.key ? 'filter-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchFilter"
+    >{{item.text}}</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{visible.length}} 条 / 共 {{contracts.length}} 条</view>
+
+  <view class="empty" wx:if="{{visible.length === 0 && keyword}}">没有匹配「{{keyword}}」的合同</view>
+  <view class="empty" wx:elif="{{contracts.length === 0}}">暂无{{filterText}}合同</view>
+
+  <view class="c-card" wx:for="{{visible}}" wx:key="id" data-id="{{item.id}}" bindtap="goEdit">
+    <view class="c-head">
+      <view class="c-who">
+        <view class="c-name">{{item.tenant_name}}</view>
+        <view class="c-phone">{{item.tenant_phone}}</view>
+      </view>
+      <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+    </view>
+    <view class="c-room">🏠 {{item.room_text}}</view>
+    <view class="c-line">
+      <text class="c-k">月租</text><text class="c-v amount">¥{{item.rent_text}}</text>
+      <text class="c-k">押金</text><text class="c-v">¥{{item.deposit_text}}</text>
+    </view>
+    <view class="c-line">
+      <text class="c-k">租期</text><text class="c-v">{{item.date_text}}</text>
+    </view>
+    <view class="c-line">
+      <text class="c-k">付款</text><text class="c-v">{{item.pay_text}}</text>
+      <text class="c-unpaid" wx:if="{{item.unpaid_text}}">待缴 ¥{{item.unpaid_text}}</text>
+    </view>
+    <view class="c-edit">编辑合同 ›</view>
+  </view>
+</view>

@@ -1,0 +1,41 @@
+page { background: #f5f7fa; }
+
+.tenant-card {
+  background: #ffffff;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.tc-head { display: flex; align-items: center; }
+.avatar {
+  width: 76rpx; height: 76rpx;
+  border-radius: 50%;
+  background: #e6f4ff;
+  color: #0958d9;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32rpx; font-weight: 600;
+}
+.tc-meta { flex: 1; margin-left: 20rpx; }
+.tc-name { font-size: 30rpx; font-weight: 600; }
+.tc-phone { font-size: 24rpx; color: #9ca3af; margin-top: 4rpx; }
+.tc-room {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #374151;
+  background: #f6ffed;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+}
+.tc-none { background: #fafafa; color: #9ca3af; }
+.tc-time { margin-top: 12rpx; font-size: 22rpx; color: #d1d5db; }
+
+.tc-actions { display: flex; justify-content: flex-end; margin-top: 20rpx; }
+.act-btn {
+  font-size: 24rpx;
+  padding: 12rpx 36rpx;
+  border-radius: 8rpx;
+  margin-left: 16rpx;
+}
+.act-ok { background: #07C160; color: #ffffff; }
+.act-no { background: #fef2f2; color: #ef4444; }

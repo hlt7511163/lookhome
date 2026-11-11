@@ -1,0 +1,84 @@
+/* 4 个指标：两行两列（不用 calc，避免旧基础库 rpx 计算不生效） */
+.stat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12rpx;
+}
+.stat-cell {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 12rpx;
+}
+.stat-card {
+  border-radius: 16rpx;
+  padding: 26rpx 24rpx;
+  background: #ffffff;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.stat-value { font-size: 38rpx; font-weight: 700; line-height: 1.2; }
+.stat-label { font-size: 22rpx; color: #9ca3af; margin-top: 8rpx; }
+.sc-red .stat-value { color: #cf1322; }
+.sc-green .stat-value { color: #389e0d; }
+.sc-orange .stat-value { color: #d48806; }
+.sc-blue .stat-value { color: #0958d9; }
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 8rpx solid #07C160;
+}
+
+.room-row { display: flex; }
+.room-stat {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.rs-num { font-size: 44rpx; font-weight: 700; }
+.rs-green { color: #389e0d; }
+.rs-orange { color: #d48806; }
+.rs-label { font-size: 22rpx; color: #9ca3af; }
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f7f7f7;
+  font-size: 28rpx;
+}
+.cell:last-child { border-bottom: none; }
+.cell-arrow { color: #9ca3af; font-size: 26rpx; margin-left: 8rpx; }
+.todo-num {
+  color: #cf1322;
+  font-weight: 600;
+  font-size: 26rpx;
+  margin-right: 8rpx;
+}
+
+.trend-row {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+  font-size: 24rpx;
+}
+.trend-label { width: 110rpx; color: #6b7280; }
+.trend-bar-wrap {
+  flex: 1;
+  height: 24rpx;
+  background: #f3f4f6;
+  border-radius: 12rpx;
+  margin: 0 16rpx;
+  overflow: hidden;
+}
+.trend-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #07C160, #34d399);
+  border-radius: 12rpx;
+  min-width: 4rpx;
+}
+.trend-value { width: 160rpx; text-align: right; color: #374151; font-weight: 500; }

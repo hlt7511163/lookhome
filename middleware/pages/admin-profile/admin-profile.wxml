@@ -1,0 +1,67 @@
+<view class="page">
+  <!-- 账号卡片 -->
+  <view class="profile-head">
+    <view class="avatar">🛠️</view>
+    <view class="p-meta">
+      <view class="p-name">{{user.display_name || user.username || '管理员'}}</view>
+      <view class="p-sub">{{user.username}} · {{user.role === 'admin' ? '主管理员' : '操作员'}}</view>
+    </view>
+  </view>
+
+  <!-- 账号信息 -->
+  <view class="card">
+    <view class="card-title">账号信息</view>
+    <view class="info-row"><text class="info-label">用户名</text><text>{{user.username}}</text></view>
+    <view class="info-row"><text class="info-label">角色</text><text>{{user.role === 'admin' ? '主管理员' : '操作员'}}</text></view>
+    <view class="info-row"><text class="info-label">邮箱</text><text>{{user.email || '未绑定'}}</text></view>
+    <view class="info-row"><text class="info-label">注册时间</text><text>{{user.created_at}}</text></view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="card menu-card">
+    <view class="cell" bindtap="openPwd">
+      <text>🔑 修改密码</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="goContracts">
+      <text>📑 合同管理 / 编辑合同</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="goContract">
+      <text>📄 合同模板</text>
+      <text class="cell-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+  </view>
+
+  <view class="version">LookHome 管理端 · v1.0</view>
+
+  <!-- 修改密码弹窗 -->
+  <view class="mask" wx:if="{{pwdModal}}" bindtap="closePwd">
+    <view class="modal" catchtap="noop">
+      <view class="modal-title">修改密码</view>
+      <view class="form-item">
+        <view class="form-label">原密码</view>
+        <input class="modal-input" password placeholder="请输入原密码" value="{{oldPwd}}" bindinput="onOldPwd" />
+      </view>
+      <view class="form-item">
+        <view class="form-label">新密码（至少 6 位）</view>
+        <input class="modal-input" password placeholder="请输入新密码" value="{{newPwd}}" bindinput="onNewPwd" />
+      </view>
+      <view class="form-item">
+        <view class="form-label">确认新密码</view>
+        <input class="modal-input" password placeholder="请再次输入新密码" value="{{confirmPwd}}" bindinput="onConfirmPwd" />
+      </view>
+      <view class="modal-btns">
+        <button class="modal-btn" bindtap="closePwd">取消</button>
+        <button class="modal-btn modal-btn-ok" loading="{{submitting}}" bindtap="submitPwd">确认修改</button>
+      </view>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

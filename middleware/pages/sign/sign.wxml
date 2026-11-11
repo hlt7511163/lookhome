@@ -1,0 +1,76 @@
+<view class="page has-footer" wx:if="{{room}}">
+  <!-- 房间摘要 -->
+  <view class="card room-summary">
+    <view class="rs-title">{{room.property_name}} · {{room.room_no}}</view>
+    <view class="rs-sub">{{room.layout}} · {{room.area}}㎡ · 月租金 ¥{{room.ref_rent}} · 押金 ¥{{room.deposit}}</view>
+  </view>
+
+  <!-- 租期选择 -->
+  <view class="card">
+    <view class="card-title">租赁期限</view>
+    <view class="chip-row">
+      <view
+        wx:for="{{terms}}"
+        wx:key="*this"
+        class="chip {{termMonths === item ? 'chip-active' : ''}}"
+        data-value="{{item}}"
+        bindtap="pickTerm"
+      >{{item}} 个月</view>
+    </view>
+  </view>
+
+  <!-- 支付方式 -->
+  <view class="card">
+    <view class="card-title">支付方式</view>
+    <view class="chip-row">
+      <view
+        wx:for="{{payModes}}"
+        wx:key="key"
+        class="chip {{payMode === item.key ? 'chip-active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="pickPayMode"
+      >{{item.text}}</view>
+    </view>
+  </view>
+
+  <!-- 起租日期 -->
+  <view class="card">
+    <view class="card-title">起租日期</view>
+    <picker mode="date" value="{{startDate}}" bindchange="onDateChange">
+      <view class="picker-value">{{startDate}} ›</view>
+    </picker>
+  </view>
+
+  <!-- 合同预览 -->
+  <view class="card preview-block">
+    <view class="card-title">合同预览</view>
+    <view class="preview-actions">
+      <button class="preview-btn" loading="{{loadingPreview}}" bindtap="loadPreview">
+        {{previewText ? '刷新合同预览' : '查看合同预览'}}
+      </button>
+    </view>
+    <view wx:if="{{previewInfo}}" class="preview-info">
+      <text>租期：{{previewInfo.start_date}} 至 {{previewInfo.end_date}}</text>
+      <text>月租金：¥{{previewInfo.monthly_rent}} · 押金：¥{{previewInfo.deposit}}</text>
+    </view>
+    <scroll-view scroll-y class="preview-text" wx:if="{{previewText}}">
+      <text>{{previewText}}</text>
+    </scroll-view>
+    <view wx:else class="preview-empty">选择租期与支付方式后，点击上方按钮生成合同预览</view>
+  </view>
+
+  <!-- 同意 -->
+  <view class="card agree-row">
+    <view class="checkbox {{agreed ? 'checkbox-on' : ''}}" bindtap="toggleAgree">
+      <text wx:if="{{agreed}}">✓</text>
+    </view>
+    <text class="agree-text">我已阅读并同意《房屋租赁合同》全部条款</text>
+  </view>
+
+  <!-- 底部提交 -->
+  <view class="footer-bar">
+    <button class="btn-primary" loading="{{submitting}}" bindtap="submitApply">提交签约申请</button>
+  </view>
+</view>
+
+<view wx:else class="empty">加载中...</view>

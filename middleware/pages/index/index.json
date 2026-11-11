@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "LookHome 租客端",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  }
+}

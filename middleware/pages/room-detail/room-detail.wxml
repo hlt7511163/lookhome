@@ -1,0 +1,39 @@
+<view class="page" wx:if="{{room}}">
+  <!-- 房间头部 -->
+  <view class="room-head {{room.vacant ? 'head-vacant' : 'head-rented'}}">
+    <view class="rh-title">{{room.property_name}} · {{room.room_no}}</view>
+    <view class="rh-status">{{room.statusText}}</view>
+    <view class="rh-rent">¥{{room.ref_rent}}<text class="rh-unit">/月</text></view>
+    <view class="rh-sub">{{room.layout}} · {{room.area}}㎡ · 押金 ¥{{room.deposit}}</view>
+  </view>
+
+  <!-- 房屋信息 -->
+  <view class="card">
+    <view class="card-title">房屋信息</view>
+    <view class="info-row"><text class="info-label">户型</text><text>{{room.layout}}</text></view>
+    <view class="info-row"><text class="info-label">面积</text><text>{{room.area}} ㎡</text></view>
+    <view class="info-row"><text class="info-label">独立卫生间</text><text>{{room.bathroom ? '有' : '无'}}</text></view>
+    <view class="info-row"><text class="info-label">窗户</text><text>{{room.window ? '有' : '无'}}</text></view>
+    <view class="info-row"><text class="info-label">可入住日期</text><text>{{room.available_date || '随时'}}</text></view>
+  </view>
+
+  <!-- 费用标准 -->
+  <view class="card">
+    <view class="card-title">费用标准</view>
+    <view class="info-row"><text class="info-label">月租金</text><text class="amount-red">¥{{room.ref_rent}}</text></view>
+    <view class="info-row"><text class="info-label">押金</text><text>¥{{room.deposit}}</text></view>
+    <view class="info-row"><text class="info-label">垃圾费</text><text>¥{{room.garbage_fee}}/月</text></view>
+    <view class="info-row"><text class="info-label">水费</text><text>¥{{room.water_rate}}/吨</text></view>
+    <view class="info-row"><text class="info-label">电费</text><text>¥{{room.electric_rate}}/度</text></view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="footer-bar" wx:if="{{room.vacant}}">
+    <button class="btn-primary" bindtap="goSign">立即签约</button>
+  </view>
+  <view class="footer-bar" wx:else>
+    <view class="rented-tip-full">该房间已出租，看看其他房源吧</view>
+  </view>
+</view>
+
+<view wx:else class="empty">房间不存在或已下架</view>

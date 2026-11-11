@@ -1,0 +1,41 @@
+.list-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 28rpx 8rpx;
+}
+.lh-tip { font-size: 22rpx; color: #9ca3af; }
+.lh-action { font-size: 24rpx; color: #07C160; }
+
+.msg-card {
+  background: #ffffff;
+  margin: 16rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 26rpx 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.msg-unread { border-left: 8rpx solid #07C160; }
+
+.msg-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+.msg-kind { font-size: 22rpx; color: #0958d9; background: #e6f4ff; border-radius: 6rpx; padding: 2rpx 12rpx; }
+.msg-dot { width: 12rpx; height: 12rpx; border-radius: 50%; background: #f5222d; }
+.msg-time { font-size: 22rpx; color: #9ca3af; margin-left: auto; }
+
+.msg-title { font-size: 28rpx; font-weight: 600; margin-bottom: 8rpx; }
+.msg-content { font-size: 26rpx; color: #4b5563; line-height: 1.6; }
+
+.msg-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+  border-top: 1rpx solid #f3f4f6;
+  padding-top: 14rpx;
+}
+.msg-bill { font-size: 22rpx; color: #9ca3af; }
+.msg-go { font-size: 24rpx; color: #07C160; }

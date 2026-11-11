@@ -1,0 +1,69 @@
+<view class="page">
+  <!-- 统计条 -->
+  <view class="stat-bar">
+    <view class="stat-item">
+      <view class="stat-value amount-red">{{stat.unpaidAmount}}</view>
+      <view class="stat-label">待缴金额（元）</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stat.unpaidCount}}</view>
+      <view class="stat-label">待缴笔数</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value amount-green">{{stat.paidCount}}</view>
+      <view class="stat-label">已缴笔数</view>
+    </view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="filter-bar">
+    <view
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="filter-item {{filter === item.key ? 'filter-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchFilter"
+    >{{item.text}}</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{visible.length}} 条 / 共 {{bills.length}} 条</view>
+
+  <!-- 账单列表 -->
+  <view class="empty" wx:if="{{visible.length === 0 && keyword}}">没有匹配「{{keyword}}」的账单</view>
+  <view class="empty" wx:elif="{{bills.length === 0}}">暂无账单记录</view>
+
+  <view class="bill-card" wx:for="{{visible}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+    <view class="bill-head">
+      <text class="bill-period">{{item.period}}</text>
+      <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+    </view>
+    <view class="bill-title">{{item.title}}</view>
+    <view class="bill-room">{{item.property_name}} · {{item.room_no}}</view>
+    <view class="bill-foot">
+      <view>
+        <text class="bill-amount">¥{{item.total}}</text>
+        <text wx:if="{{item.paid_amount > 0 && item.status !== 'paid'}}" class="bill-paid"> 已付 ¥{{item.paid_amount}}</text>
+      </view>
+      <text class="bill-remain" wx:if="{{item.status !== 'paid' && item.status !== 'void'}}">待付 ¥{{item.remain}}</text>
+      <text wx:elif="{{item.paid_at}}" class="bill-paytime">{{item.paid_at}}</text>
+    </view>
+    <view wx:if="{{item.reminded}}" class="remind-flag">📢 已收到缴费提醒</view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

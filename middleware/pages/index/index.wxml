@@ -1,0 +1,88 @@
+<view class="page">
+  <!-- 用户信息卡 -->
+  <view class="header-card">
+    <view class="user-row">
+      <view class="avatar">{{avatarChar}}</view>
+      <view class="user-meta">
+        <view class="user-name">{{tenant.name || '租客'}}</view>
+        <view class="user-sub">{{userSub}}</view>
+      </view>
+      <view class="verify-tag {{tenant.verify_status === 'approved' ? 'vt-ok' : 'vt-wait'}}">{{verifyText}}</view>
+    </view>
+  </view>
+
+  <!-- 待缴金额 -->
+  <view class="unpaid-card" bindtap="goBills">
+    <view class="unpaid-label">待缴总额（元）</view>
+    <view class="unpaid-value">{{unpaidTotal}}</view>
+    <view class="unpaid-action">查看账单 ›</view>
+  </view>
+
+  <!-- 当前合同 -->
+  <view class="card">
+    <view class="card-title">当前合同</view>
+    <view wx:if="{{contract}}" class="contract-body">
+      <view class="c-row">
+        <text class="c-label">房间</text>
+        <text class="c-value">{{contract.property_name}} · {{contract.room_no}}</text>
+      </view>
+      <view class="c-row">
+        <text class="c-label">月租金</text>
+        <text class="c-value amount">¥{{contract.monthly_rent}}</text>
+      </view>
+      <view class="c-row">
+        <text class="c-label">押金</text>
+        <text class="c-value">¥{{contract.deposit}}</text>
+      </view>
+      <view class="c-row">
+        <text class="c-label">租期</text>
+        <text class="c-value">{{contract.start_date}} 至 {{contract.end_date}}</text>
+      </view>
+      <view class="c-row">
+        <text class="c-label">缴费日</text>
+        <text class="c-value">每月 {{contract.pay_day}} 日</text>
+      </view>
+    </view>
+    <view wx:else class="empty-box">
+      <view>暂无生效合同</view>
+      <button class="btn-primary mini-btn" bindtap="goProperties">去找房</button>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="card">
+    <view class="card-title">快捷服务</view>
+    <view class="grid">
+      <view class="grid-item" bindtap="goBills">
+        <text class="grid-icon">📋</text>
+        <text>我的账单</text>
+      </view>
+      <view class="grid-item" bindtap="goProperties">
+        <text class="grid-icon">🔍</text>
+        <text>找房签约</text>
+      </view>
+      <view class="grid-item" bindtap="goReminders">
+        <text class="grid-icon">🔔</text>
+        <text>缴费提醒</text>
+        <view wx:if="{{unread > 0}}" class="grid-dot"></view>
+      </view>
+      <view class="grid-item" bindtap="goApplications">
+        <text class="grid-icon">📝</text>
+        <text>签约申请</text>
+      </view>
+      <view class="grid-item" bindtap="goRefund">
+        <text class="grid-icon">💰</text>
+        <text>退押金</text>
+      </view>
+      <view class="grid-item" bindtap="callLandlord">
+        <text class="grid-icon">📞</text>
+        <text>联系房东</text>
+      </view>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+
+  <!-- 底部留位 -->
+  <view style="height: 140rpx;"></view>
+</view>

@@ -1,0 +1,43 @@
+<view class="page">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{visible.length}} 条 / 共 {{tenants.length}} 条</view>
+
+  <view class="empty" wx:if="{{visible.length === 0 && keyword}}">没有匹配「{{keyword}}」的租客</view>
+  <view class="empty" wx:elif="{{tenants.length === 0}}">暂无租客</view>
+
+  <view class="tenant-card" wx:for="{{visible}}" wx:key="id">
+    <view class="tc-head">
+      <view class="avatar">{{item.initial}}</view>
+      <view class="tc-meta">
+        <view class="tc-name">{{item.name}}</view>
+        <view class="tc-phone">{{item.phoneMasked}}</view>
+      </view>
+      <text class="tag {{item.verifyClass}}">{{item.verifyText}}</text>
+    </view>
+    <view class="tc-room" wx:if="{{item.room_no}}">
+      🏠 {{item.property_name}} · {{item.room_no}}
+    </view>
+    <view class="tc-room tc-none" wx:else>未签约</view>
+    <view class="tc-time">注册于 {{item.created_at}}</view>
+    <view class="tc-actions" wx:if="{{item.verify_status === 'pending'}}">
+      <view class="act-btn act-ok" data-id="{{item.id}}" catchtap="onVerify">通过</view>
+      <view class="act-btn act-no" data-id="{{item.id}}" catchtap="onReject">拒绝</view>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

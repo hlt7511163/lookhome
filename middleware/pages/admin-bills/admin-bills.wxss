@@ -1,0 +1,92 @@
+page { background: #f5f7fa; }
+
+.stat-bar {
+  display: flex;
+  background: #ffffff;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx 0;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.stat-item { flex: 1; text-align: center; }
+.stat-value { font-size: 34rpx; font-weight: 700; }
+.stat-label { font-size: 22rpx; color: #9ca3af; margin-top: 6rpx; }
+
+/* 推送账单工具栏 */
+.push-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  margin: 0 24rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.push-left { flex: 1; }
+.push-title { font-size: 28rpx; font-weight: 600; }
+.push-sub { font-size: 22rpx; color: #9ca3af; margin-top: 6rpx; }
+.push-btn {
+  background: #07C160;
+  color: #ffffff;
+  font-size: 26rpx;
+  padding: 14rpx 28rpx;
+  border-radius: 10rpx;
+  margin-left: 16rpx;
+}
+.push-btn-off { background: #d1d5db; }
+
+.filter-scroll { white-space: nowrap; }
+.filter-bar {
+  display: inline-flex;
+  margin: 0 24rpx 20rpx;
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 8rpx;
+}
+.filter-item {
+  font-size: 26rpx;
+  color: #6b7280;
+  padding: 12rpx 32rpx;
+  border-radius: 10rpx;
+}
+.filter-active { background: #07C160; color: #ffffff; font-weight: 500; }
+
+.bill-card {
+  background: #ffffff;
+  margin: 0 24rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.bill-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.bill-period { font-size: 30rpx; font-weight: 600; }
+.bill-title { font-size: 26rpx; color: #374151; }
+.bill-meta { font-size: 24rpx; color: #9ca3af; margin: 8rpx 0 16rpx; }
+.bill-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1rpx solid #f3f4f6;
+  padding-top: 16rpx;
+}
+.bill-amount { font-size: 34rpx; font-weight: 700; }
+.bill-paid { font-size: 22rpx; color: #9ca3af; }
+.bill-left { display: flex; align-items: baseline; }
+.bill-right { display: flex; align-items: center; }
+.bill-remain { font-size: 26rpx; color: #cf1322; font-weight: 600; }
+.remind-flag { font-size: 22rpx; color: #d48806; }
+.push-chip {
+  font-size: 24rpx;
+  color: #0958d9;
+  background: #e6f4ff;
+  border: 1rpx solid #91caff;
+  border-radius: 8rpx;
+  padding: 6rpx 20rpx;
+  margin-left: 16rpx;
+}

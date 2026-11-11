@@ -1,0 +1,46 @@
+.profile-head {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #07C160 0%, #04a94d 100%);
+  margin: 24rpx;
+  border-radius: 20rpx;
+  padding: 44rpx 32rpx;
+  color: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.25);
+}
+.avatar {
+  width: 100rpx; height: 100rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44rpx; font-weight: 600;
+}
+.p-meta { flex: 1; margin-left: 24rpx; }
+.p-name { font-size: 34rpx; font-weight: 600; }
+.p-sub { font-size: 24rpx; opacity: 0.85; margin-top: 6rpx; }
+.p-verify {
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 24rpx;
+}
+.pv-ok { background: rgba(255, 255, 255, 0.3); }
+.pv-wait { background: rgba(255, 255, 255, 0.18); }
+
+.menu-card { padding: 0; overflow: hidden; }
+.cell-arrow { color: #9ca3af; font-size: 26rpx; }
+
+.logout-btn {
+  background: #ffffff;
+  color: #cf1322;
+  font-size: 30rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid #ffccc7;
+}
+.logout-btn::after { border: none; }
+
+.version {
+  text-align: center;
+  font-size: 22rpx;
+  color: #d1d5db;
+  margin: 32rpx 0;
+}

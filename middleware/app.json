@@ -1,0 +1,84 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/bills/bills",
+    "pages/properties/properties",
+    "pages/reminders/reminders",
+    "pages/profile/profile",
+    "pages/dashboard/dashboard",
+    "pages/admin-bills/admin-bills",
+    "pages/admin-properties/admin-properties",
+    "pages/admin-tenants/admin-tenants",
+    "pages/admin-applications/admin-applications",
+    "pages/admin-profile/admin-profile",
+    "pages/admin-contract/admin-contract",
+    "pages/admin-contracts/admin-contracts",
+    "pages/contract-edit/contract-edit",
+    "pages/bill-detail/bill-detail",
+    "pages/room-detail/room-detail",
+    "pages/sign/sign",
+    "pages/applications/applications",
+    "pages/refund/refund"
+  ],
+  "window": {
+    "navigationBarTitleText": "LookHome",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f7fa",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#9ca3af",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/bills/bills",
+        "text": "账单"
+      },
+      {
+        "pagePath": "pages/properties/properties",
+        "text": "找房"
+      },
+      {
+        "pagePath": "pages/reminders/reminders",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      },
+      {
+        "pagePath": "pages/dashboard/dashboard",
+        "text": "工作台"
+      },
+      {
+        "pagePath": "pages/admin-bills/admin-bills",
+        "text": "账单"
+      },
+      {
+        "pagePath": "pages/admin-properties/admin-properties",
+        "text": "房源"
+      },
+      {
+        "pagePath": "pages/admin-tenants/admin-tenants",
+        "text": "租客"
+      },
+      {
+        "pagePath": "pages/admin-applications/admin-applications",
+        "text": "审核"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

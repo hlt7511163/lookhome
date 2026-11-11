@@ -1,0 +1,96 @@
+<view class="page">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <!-- 筛选 -->
+  <view class="filter-bar">
+    <view
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="filter-item {{filter === item.key ? 'filter-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchFilter"
+    >{{item.text}}</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{visible.length}} 条 / 共 {{applications.length}} 条</view>
+
+  <view class="empty" wx:if="{{visible.length === 0 && keyword}}">没有匹配「{{keyword}}」的申请</view>
+  <view class="empty" wx:elif="{{applications.length === 0}}">暂无{{filterText}}申请</view>
+
+  <view class="app-card" wx:for="{{visible}}" wx:key="id">
+    <view class="app-head">
+      <view class="app-avatar">{{item.initial}}</view>
+      <view class="app-meta">
+        <view class="app-name">{{item.tenant_name}}</view>
+        <view class="app-phone">{{item.tenant_phone}}</view>
+      </view>
+      <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+    </view>
+
+    <view class="app-room">🏠 {{item.property_name}} · {{item.room_no}}（{{item.area}}㎡ · 参考月租 ¥{{item.ref_rent}}）</view>
+    <view class="app-info">租期 {{item.term_months}} 个月 · {{item.payModeText}} · 期望起租 {{item.expected_date || '未填'}}</view>
+    <view class="app-info" wx:if="{{item.remark}}">备注：{{item.remark}}</view>
+    <view class="app-time">提交于 {{item.created_at}}</view>
+
+    <!-- 待审核：操作按钮 -->
+    <view class="app-actions" wx:if="{{item.status === 'pending'}}">
+      <view class="act-btn act-no" data-id="{{item.id}}" catchtap="openReject">拒绝</view>
+      <view class="act-btn act-ok" data-id="{{item.id}}" catchtap="openApprove">通过</view>
+    </view>
+
+    <!-- 通过表单 -->
+    <view class="form-block" wx:if="{{formId === item.id}}">
+      <view class="form-title">生成合同信息</view>
+      <view class="form-row">
+        <text class="form-label">起租日期</text>
+        <picker mode="date" value="{{form.start_date}}" bindchange="onStartDateChange">
+          <view class="form-value">{{form.start_date || '请选择'}}</view>
+        </picker>
+      </view>
+      <view class="form-row">
+        <text class="form-label">结束日期</text>
+        <picker mode="date" value="{{form.end_date}}" bindchange="onEndDateChange">
+          <view class="form-value">{{form.end_date || '请选择'}}</view>
+        </picker>
+      </view>
+      <view class="form-row">
+        <text class="form-label">月租金（元）</text>
+        <input class="form-input" type="digit" value="{{form.monthly_rent}}" data-field="monthly_rent" bindinput="onFormInput" placeholder="请输入" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">押金（元）</text>
+        <input class="form-input" type="digit" value="{{form.deposit}}" data-field="deposit" bindinput="onFormInput" placeholder="0 为无押金" />
+      </view>
+      <view class="form-tip">押金大于 0 时将自动生成押金账单；房间将转为已租。</view>
+      <view class="form-btns">
+        <view class="form-btn" catchtap="closeForm">取消</view>
+        <view class="form-btn form-btn-ok" catchtap="submitApprove">确认通过</view>
+      </view>
+    </view>
+
+    <!-- 拒绝表单 -->
+    <view class="form-block" wx:if="{{rejectId === item.id}}">
+      <view class="form-title">拒绝原因（选填）</view>
+      <textarea class="form-textarea" value="{{rejectReason}}" bindinput="onReasonInput" placeholder="如：身份证信息与提交不符" />
+      <view class="form-btns">
+        <view class="form-btn" catchtap="closeReject">取消</view>
+        <view class="form-btn form-btn-no" catchtap="submitReject">确认拒绝</view>
+      </view>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

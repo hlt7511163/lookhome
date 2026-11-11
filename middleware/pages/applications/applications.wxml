@@ -1,0 +1,39 @@
+<view class="page">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{visible.length}} 条 / 共 {{applications.length}} 条</view>
+
+  <view class="empty" wx:if="{{applications.length === 0}}">
+    <view>暂无签约申请</view>
+    <button class="btn-primary mini-btn" bindtap="goProperties">去找房</button>
+  </view>
+  <view class="empty" wx:elif="{{visible.length === 0}}">没有匹配「{{keyword}}」的申请</view>
+
+  <view class="app-card" wx:for="{{visible}}" wx:key="id">
+    <view class="app-head">
+      <text class="app-room">{{item.property_name}} · {{item.room_no}}</text>
+      <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+    </view>
+    <view class="app-row"><text class="app-label">期望入住</text><text>{{item.expected_date || '待定'}}</text></view>
+    <view class="app-row"><text class="app-label">租期</text><text>{{item.term_months}} 个月</text></view>
+    <view class="app-row"><text class="app-label">支付方式</text><text>{{item.payModeText}}</text></view>
+    <view class="app-row"><text class="app-label">参考租金</text><text>¥{{item.ref_rent}}/月</text></view>
+    <view class="app-row"><text class="app-label">提交时间</text><text>{{item.created_at}}</text></view>
+    <view class="app-reject" wx:if="{{item.status === 'rejected' && item.reject_reason}}">
+      驳回原因：{{item.reject_reason}}
+    </view>
+    <view class="app-tip" wx:if="{{item.status === 'pending'}}">房东确认后即生成合同，并提醒您支付租金及押金</view>
+  </view>
+</view>

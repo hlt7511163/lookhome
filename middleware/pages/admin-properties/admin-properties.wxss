@@ -1,0 +1,41 @@
+page { background: #f5f7fa; }
+
+.prop-card {
+  background: #ffffff;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.prop-head { display: flex; justify-content: space-between; align-items: center; }
+.prop-name { font-size: 32rpx; font-weight: 700; }
+.prop-vacant { font-size: 24rpx; color: #389e0d; }
+.prop-address { font-size: 24rpx; color: #9ca3af; margin: 10rpx 0; }
+.prop-stat { font-size: 22rpx; color: #6b7280; }
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 8rpx solid #07C160;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title-stat { font-size: 22rpx; color: #9ca3af; font-weight: 400; }
+
+.room-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.room-row:last-child { border-bottom: none; }
+.room-left { display: flex; align-items: center; gap: 12rpx; width: 180rpx; }
+.room-no { font-size: 30rpx; font-weight: 600; }
+.room-tag { font-size: 20rpx; }
+.room-mid { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
+.room-prop { font-size: 24rpx; color: #9ca3af; }
+.room-sub { font-size: 24rpx; color: #374151; }
+.room-tenant { font-size: 22rpx; color: #0958d9; }

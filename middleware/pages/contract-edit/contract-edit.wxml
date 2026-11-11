@@ -1,0 +1,61 @@
+<view class="page" wx:if="{{contract}}">
+  <!-- 合同概要 -->
+  <view class="card">
+    <view class="h-head">
+      <view class="h-name">{{contract.tenant_name}}</view>
+      <text class="tag {{contract.statusClass}}">{{contract.statusText}}</text>
+    </view>
+    <view class="h-sub">{{contract.tenant_phone}}</view>
+    <view class="h-room">🏠 {{contract.room_text}}</view>
+    <view class="h-line">原租期：{{contract.date_text}}</view>
+    <view class="h-line" wx:if="{{contract.unpaid_text}}">该合同未缴金额：<text class="red">¥{{contract.unpaid_text}}</text></view>
+  </view>
+
+  <!-- 可编辑条款 -->
+  <view class="card">
+    <view class="card-title">编辑合同条款</view>
+    <view class="f-row">
+      <text class="f-label">月租金（元）</text>
+      <input class="f-input" type="digit" value="{{form.monthly_rent}}" data-field="monthly_rent" bindinput="onInput" placeholder="请输入" />
+    </view>
+    <view class="f-row">
+      <text class="f-label">押金（元）</text>
+      <input class="f-input" type="digit" value="{{form.deposit}}" data-field="deposit" bindinput="onInput" placeholder="0 为无押金" />
+    </view>
+    <view class="f-row">
+      <text class="f-label">结束日期</text>
+      <picker mode="date" value="{{form.end_date}}" bindchange="onEndDateChange">
+        <view class="f-value">{{form.end_date || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="f-row">
+      <text class="f-label">付款周期</text>
+      <picker mode="selector" range="{{payModes}}" value="{{payIndex}}" bindchange="onPayChange">
+        <view class="f-value">{{payText}}</view>
+      </picker>
+    </view>
+    <view class="f-row">
+      <text class="f-label">每月缴费日</text>
+      <input class="f-input" type="number" value="{{form.pay_day}}" data-field="pay_day" bindinput="onInput" placeholder="1-31" />
+    </view>
+    <view class="f-row f-col">
+      <text class="f-label">备注</text>
+      <textarea class="f-textarea" value="{{form.remark}}" data-field="remark" bindinput="onInput" placeholder="如：续租调价、口头约定补充" maxlength="200" />
+    </view>
+    <view class="f-tip">说明：这里改的是合同商业条款（租金/押金/到期日/付款周期/缴费日/备注）。后续账单按新租金生成；押金已支付后不能再改押金金额。合同正文由「合同模板」生成，已签约的正文不会随之变化。</view>
+  </view>
+
+  <!-- 合同正文 -->
+  <view class="card">
+    <view class="card-title" bindtap="toggleText">{{showText ? '收起合同正文' : '查看合同正文'}}<text class="fold">{{showText ? '▲' : '▼'}}</text></view>
+    <view class="full-text" wx:if="{{showText}}">{{contractText}}</view>
+    <view class="f-tip" wx:if="{{!hasText}}">该合同没有正文快照（可能是旧合同或服务端补丁未部署）。</view>
+  </view>
+
+  <view class="btn-bar">
+    <button class="save-btn" loading="{{saving}}" bindtap="save">{{saving ? '保存中...' : '保存合同'}}</button>
+  </view>
+  <view style="height: 160rpx;"></view>
+</view>
+
+<view class="empty" wx:else>加载中...</view>

@@ -1,0 +1,75 @@
+<view class="page">
+  <!-- 站点信息 -->
+  <view class="site-bar">
+    <view class="site-title">🏠 可租房源</view>
+    <view class="site-phone" bindtap="callLandlord">📞 联系房东 {{sitePhone || ''}}</view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      type="text"
+      value="{{keyword}}"
+      placeholder="{{searchPlaceholder}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{keyword}}" catchtap="clearSearch">✕</view>
+  </view>
+
+  <!-- 筛选 -->
+  <view class="filter-bar">
+    <view
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="filter-item {{filter === item.key ? 'filter-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchFilter"
+    >{{item.text}}</view>
+  </view>
+
+  <!-- 项目概览 -->
+  <scroll-view scroll-x class="prop-scroll" wx:if="{{properties.length > 0}}">
+    <view class="prop-chip" wx:for="{{properties}}" wx:key="id">
+      <view class="prop-name">{{item.name}}</view>
+      <view class="prop-sub">{{item.address}}</view>
+      <view class="prop-stat">{{item.vacant_count}} 套空置 / 共 {{item.room_count}} 套</view>
+    </view>
+  </scroll-view>
+
+  <!-- 房间列表 -->
+  <view class="search-tip" wx:if="{{keyword}}">匹配 {{filteredRooms.length}} 间</view>
+
+  <view class="empty" wx:if="{{filteredRooms.length === 0 && keyword}}">没有匹配「{{keyword}}」的房源</view>
+  <view class="empty" wx:elif="{{filteredRooms.length === 0}}">暂无{{filterText}}房源</view>
+
+  <view class="room-card {{item.vacant ? 'room-vacant' : 'room-rented'}}" wx:for="{{filteredRooms}}" wx:key="id" data-id="{{item.id}}" bindtap="goRoomDetail">
+    <view class="room-head">
+      <text class="room-no">{{item.room_no}}</text>
+      <text class="room-status {{item.vacant ? 'rs-vacant' : 'rs-rented'}}">{{item.statusText}}</text>
+    </view>
+    <view class="room-info">
+      <text class="room-prop">{{item.property_name}}</text>
+      <text class="room-layout">{{item.layout}} · {{item.area}}㎡</text>
+    </view>
+    <view class="room-tags">
+      <text class="rtag" wx:if="{{item.bathroom}}">独卫</text>
+      <text class="rtag" wx:if="{{item.window}}">有窗</text>
+      <text class="rtag" wx:if="{{item.available_date}}">{{item.available_date}}可入住</text>
+    </view>
+    <view class="room-foot">
+      <view>
+        <text class="room-rent">¥{{item.ref_rent}}</text>
+        <text class="room-unit">/月</text>
+        <text class="room-deposit">押金 ¥{{item.deposit}}</text>
+      </view>
+      <button class="sign-btn" wx:if="{{item.vacant}}" data-id="{{item.id}}" catchtap="goRoomDetail">立即签约</button>
+      <text wx:else class="rented-tip">已出租</text>
+    </view>
+  </view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

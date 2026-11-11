@@ -1,0 +1,41 @@
+<view class="page">
+  <!-- 用户卡片 -->
+  <view class="profile-head">
+    <view class="avatar">{{avatarChar}}</view>
+    <view class="p-meta">
+      <view class="p-name">{{tenant.name || '租客'}}</view>
+      <view class="p-sub">{{phoneMasked}}</view>
+    </view>
+    <view class="p-verify {{tenant.verify_status === 'approved' ? 'pv-ok' : 'pv-wait'}}">{{verifyText}}</view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="card menu-card">
+    <view class="cell" bindtap="goApplications">
+      <text>📝 我的签约申请</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="goRefund">
+      <text>💰 退押金申请</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" bindtap="callLandlord">
+      <text>📞 联系房东</text>
+      <text class="cell-arrow">{{sitePhone || ''}} ›</text>
+    </view>
+    <view class="cell">
+      <text>🔔 缴费提醒（订阅消息）</text>
+      <switch checked="{{subscribeOn}}" color="#07C160" bindchange="toggleSubscribe" />
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="card">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+  </view>
+
+  <view class="version">LookHome 租客端 · v1.0</view>
+
+  <custom-tab-bar />
+  <view style="height: 140rpx;"></view>
+</view>

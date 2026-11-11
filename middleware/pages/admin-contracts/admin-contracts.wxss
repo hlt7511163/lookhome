@@ -1,0 +1,74 @@
+page { background: #f5f7fa; }
+
+/* 合同模板入口 */
+.tpl-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+.tpl-entry-left { flex: 1; }
+.tpl-entry-title { font-size: 28rpx; font-weight: 600; }
+.tpl-entry-desc { font-size: 22rpx; color: #9ca3af; margin-top: 6rpx; }
+.cell-arrow { color: #c4c8d0; font-size: 34rpx; margin-left: 16rpx; }
+
+/* 筛选 */
+.filter-bar {
+  display: flex;
+  background: #ffffff;
+  padding: 16rpx 24rpx;
+  margin: 20rpx 0;
+}
+.filter-item {
+  font-size: 26rpx;
+  color: #6b7280;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  margin-right: 14rpx;
+  background: #f3f4f6;
+}
+.filter-active { background: #e6f4ff; color: #0958d9; font-weight: 600; }
+
+.empty {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 26rpx;
+  padding: 120rpx 0;
+}
+
+/* 合同卡片 */
+.c-card {
+  background: #ffffff;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.c-head { display: flex; align-items: flex-start; justify-content: space-between; }
+.c-name { font-size: 30rpx; font-weight: 600; }
+.c-phone { font-size: 24rpx; color: #9ca3af; margin-top: 4rpx; }
+.tag { font-size: 22rpx; padding: 6rpx 16rpx; border-radius: 6rpx; }
+.st-paid { background: #f6ffed; color: #389e0d; }
+.st-info { background: #e6f4ff; color: #0958d9; }
+.st-void { background: #f5f5f5; color: #8c8c8c; }
+
+.c-room {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #374151;
+  background: #f6ffed;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+}
+.c-line { display: flex; align-items: center; margin-top: 12rpx; font-size: 26rpx; }
+.c-k { color: #9ca3af; font-size: 24rpx; margin-right: 12rpx; }
+.c-v { color: #374151; margin-right: 32rpx; }
+.c-unpaid { margin-left: auto; font-size: 24rpx; color: #cf1322; }
+.c-edit {
+  margin-top: 20rpx;
+  border-top: 1rpx solid #f3f4f6;
+  padding-top: 18rpx;
+  text-align: right;
+  font-size: 26rpx;
+  color: #0958d9;
+}

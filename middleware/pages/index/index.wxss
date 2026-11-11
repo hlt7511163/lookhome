@@ -1,0 +1,95 @@
+.page { padding-bottom: 40rpx; }
+
+/* 用户信息卡 */
+.header-card {
+  background: linear-gradient(135deg, #07C160 0%, #04a94d 100%);
+  margin: 24rpx;
+  border-radius: 20rpx;
+  padding: 36rpx 32rpx;
+  color: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.25);
+}
+.user-row { display: flex; align-items: center; }
+.avatar {
+  width: 88rpx; height: 88rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40rpx; font-weight: 600;
+}
+.user-meta { flex: 1; margin-left: 24rpx; }
+.user-name { font-size: 34rpx; font-weight: 600; }
+.user-sub { font-size: 24rpx; opacity: 0.85; margin-top: 6rpx; }
+.verify-tag {
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.22);
+}
+.vt-ok { background: rgba(255, 255, 255, 0.3); }
+.vt-wait { background: rgba(255, 255, 255, 0.18); }
+
+/* 待缴卡片 */
+.unpaid-card {
+  background: #ffffff;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+.unpaid-label { font-size: 24rpx; color: #6b7280; }
+.unpaid-value {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #cf1322;
+  margin: 12rpx 0;
+}
+.unpaid-action { font-size: 26rpx; color: #07C160; text-align: right; }
+
+/* 合同卡 */
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 8rpx solid #07C160;
+}
+.c-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14rpx 0;
+  font-size: 26rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.c-row:last-child { border-bottom: none; }
+.c-label { color: #6b7280; }
+.c-value { color: #1f2937; }
+.empty-box { text-align: center; color: #9ca3af; padding: 40rpx 0; font-size: 26rpx; }
+.mini-btn {
+  margin-top: 24rpx;
+  width: 280rpx;
+  font-size: 26rpx;
+  display: inline-block;
+}
+
+/* 快捷入口 */
+.grid { display: flex; flex-wrap: wrap; }
+.grid-item {
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 0;
+  font-size: 24rpx;
+  color: #374151;
+  position: relative;
+}
+.grid-icon { font-size: 48rpx; margin-bottom: 12rpx; }
+.grid-dot {
+  position: absolute;
+  top: 20rpx;
+  right: 60rpx;
+  width: 16rpx; height: 16rpx;
+  border-radius: 50%;
+  background: #f5222d;
+}
