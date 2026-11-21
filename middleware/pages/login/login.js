@@ -1,9 +1,11 @@
 const { request } = require('../../utils/request.js');
 const { saveLogin } = require('../../utils/auth.js');
+const { isValidIdCard } = require('../../utils/util.js');
 
 Page({
   data: {
     mode: 'admin',        // admin=管理员登录 / tenant=租客登录 / register=租客注册
+    agreed: false,        // 是否已勾选同意用户协议与隐私政策
     tabs: [
       { key: 'admin', text: '管理员' },
       { key: 'tenant', text: '租客登录' },
@@ -32,12 +34,51 @@ Page({
     this.setData({ mode: e.currentTarget.dataset.mode });
   },
 
+  onLoad() {
+    this.setData({ agreed: !!wx.getStorageSync('privacyAgreed') });
+  },
+
+  toggleAgree() {
+    this.setData({ agreed: !this.data.agreed });
+  },
+
+  openPrivacy(e) {
+    const tab = (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.tab) || 'privacy';
+    wx.navigateTo({ url: '/pages/privacy/privacy?tab=' + tab });
+  },
+
+  // 登录/注册前置合规检查：勾选同意 + 微信隐私保护指引授权
+  async guardConsent() {
+    if (!this.data.agreed) {
+      wx.showToast({ title: '请先阅读并勾选同意《用户协议与隐私政策》', icon: 'none' });
+      return false;
+    }
+    try {
+      if (typeof wx.getPrivacySetting === 'function' && typeof wx.requirePrivacyAuthorize === 'function') {
+        const setting = await new Promise((resolve) => {
+          wx.getPrivacySetting({ success: resolve, fail: () => resolve({}) });
+        });
+        if (setting && setting.needAuthorization) {
+          await new Promise((resolve, reject) => {
+            wx.requirePrivacyAuthorize({ success: resolve, fail: reject });
+          });
+        }
+      }
+    } catch (e) {
+      wx.showToast({ title: '需同意隐私保护指引后才能继续', icon: 'none' });
+      return false;
+    }
+    wx.setStorageSync('privacyAgreed', true);
+    return true;
+  },
+
   // ===== 管理员登录（原有功能，保持不变）=====
   async handleLogin() {
     if (!this.data.username || !this.data.password) {
       wx.showToast({ title: '请输入账号密码', icon: 'none' });
       return;
     }
+    if (!(await this.guardConsent())) return;
     if (this.data.submitting) return;
     this.setData({ submitting: true });
     wx.showToast({ title: '登录中...', icon: 'loading', duration: 10000 });
@@ -78,10 +119,11 @@ Page({
       wx.showToast({ title: '手机号格式不正确', icon: 'none' });
       return;
     }
-    if (!/^\d{17}[\dXx]$/.test(idCard)) {
-      wx.showToast({ title: '身份证号格式不正确', icon: 'none' });
+    if (!isValidIdCard(idCard)) {
+      wx.showToast({ title: '身份证号不正确', icon: 'none' });
       return;
     }
+    if (!(await this.guardConsent())) return;
     if (this.data.submitting) return;
     this.setData({ submitting: true });
     wx.showToast({ title: '登录中...', icon: 'loading', duration: 10000 });
@@ -117,6 +159,7 @@ Page({
 
   // ===== 微信一键登录 =====
   async handleWxLogin() {
+    if (!(await this.guardConsent())) return;
     if (this.data.submitting) return;
     this.setData({ submitting: true });
     try {
@@ -169,10 +212,11 @@ Page({
       wx.showToast({ title: '手机号格式不正确', icon: 'none' });
       return;
     }
-    if (!/^\d{17}[\dXx]$/.test(idCard)) {
-      wx.showToast({ title: '身份证号格式不正确', icon: 'none' });
+    if (!isValidIdCard(idCard)) {
+      wx.showToast({ title: '身份证号不正确', icon: 'none' });
       return;
     }
+    if (!(await this.guardConsent())) return;
     if (this.data.submitting) return;
     this.setData({ submitting: true });
     wx.showToast({ title: '提交中...', icon: 'loading', duration: 10000 });

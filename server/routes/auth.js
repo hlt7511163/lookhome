@@ -3,16 +3,25 @@ import bcrypt from 'bcryptjs';
 import crypto from 'node:crypto';
 import { db } from '../db.js';
 import { auth, signToken } from '../middleware/auth.js';
+import { loginCheck, loginFail, loginReset } from '../middleware/loginGuard.js';
 import { sendMail, smtpConfigured, getSmtpConfig } from '../lib/mailer.js';
 
 const r = Router();
 
 r.post('/login', async (req, res) => {
   const { username, password, code } = req.body || {};
+  // 失败锁定：同账号 15 分钟错 5 次 / 同 IP 累计 20 次 → 429
+  const lc = loginCheck(req, username);
+  if (lc.blocked) {
+    res.set('Retry-After', String(lc.retryAfter));
+    return res.status(429).json({ error: `尝试过于频繁，请 ${Math.ceil(lc.retryAfter / 60)} 分钟后再试` });
+  }
   const u = db.prepare('SELECT * FROM admin_users WHERE username=? AND status=1').get(String(username || ''));
   if (!u || !bcrypt.compareSync(String(password || ''), u.password_hash)) {
+    loginFail(req, username);
     return res.status(400).json({ error: '用户名或密码错误' });
   }
+  loginReset(req, username);
   // 可选：登录成功后绑定当前微信 openid（小程序管理员自动登录用）
   if (code) {
     try {

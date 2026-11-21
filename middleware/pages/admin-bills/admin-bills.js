@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin } = require('../../utils/auth.js');
+const { ensureRole } = require('../../utils/auth.js');
 const { fmtMoney, BILL_STATUS, BILL_STATUS_CLASS } = require('../../utils/util.js');
 const { buildSearchKey, filterByKeyword } = require('../../utils/search.js');
 
@@ -24,7 +24,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     this.fetchBills();
   },
 

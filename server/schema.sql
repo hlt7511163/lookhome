@@ -286,3 +286,21 @@ CREATE TABLE IF NOT EXISTS reminders (
   created_at TEXT DEFAULT (datetime('now','localtime')),
   read_at TEXT
 );
+
+-- 审计日志：所有写操作与登录事件（等保要求日志留存不少于 6 个月）
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts TEXT NOT NULL,
+  actor_id INTEGER,
+  actor_role TEXT,
+  action TEXT NOT NULL,
+  method TEXT NOT NULL,
+  path TEXT NOT NULL,
+  status INTEGER,
+  ip TEXT,
+  ua TEXT,
+  detail TEXT,
+  duration_ms INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_ts ON audit_logs(ts);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_actor ON audit_logs(actor_id, ts);

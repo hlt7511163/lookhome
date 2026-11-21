@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin, clearLogin } = require('../../utils/auth.js');
+const { ensureRole, clearLogin } = require('../../utils/auth.js');
 
 Page({
   data: {
@@ -12,7 +12,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     this.loadMe();
   },
 
@@ -29,6 +29,7 @@ Page({
   noop() { /* 阻止弹窗遮罩穿透点击 */ },
   goContract() { wx.navigateTo({ url: '/pages/admin-contract/admin-contract' }); },
   goContracts() { wx.navigateTo({ url: '/pages/admin-contracts/admin-contracts' }); },
+  goRefunds() { wx.navigateTo({ url: '/pages/admin-refunds/admin-refunds' }); },
   closePwd() { this.setData({ pwdModal: false }); },
   onOldPwd(e) { this.setData({ oldPwd: e.detail.value }); },
   onNewPwd(e) { this.setData({ newPwd: e.detail.value }); },

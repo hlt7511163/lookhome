@@ -14,12 +14,14 @@
     "pages/admin-profile/admin-profile",
     "pages/admin-contract/admin-contract",
     "pages/admin-contracts/admin-contracts",
+    "pages/admin-refunds/admin-refunds",
     "pages/contract-edit/contract-edit",
     "pages/bill-detail/bill-detail",
     "pages/room-detail/room-detail",
     "pages/sign/sign",
     "pages/applications/applications",
-    "pages/refund/refund"
+    "pages/refund/refund",
+    "pages/privacy/privacy"
   ],
   "window": {
     "navigationBarTitleText": "LookHome",
@@ -55,29 +57,10 @@
       {
         "pagePath": "pages/profile/profile",
         "text": "我的"
-      },
-      {
-        "pagePath": "pages/dashboard/dashboard",
-        "text": "工作台"
-      },
-      {
-        "pagePath": "pages/admin-bills/admin-bills",
-        "text": "账单"
-      },
-      {
-        "pagePath": "pages/admin-properties/admin-properties",
-        "text": "房源"
-      },
-      {
-        "pagePath": "pages/admin-tenants/admin-tenants",
-        "text": "租客"
-      },
-      {
-        "pagePath": "pages/admin-applications/admin-applications",
-        "text": "审核"
       }
     ]
   },
+  "__usePrivacyCheck__": true,
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents"

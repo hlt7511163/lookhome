@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin } = require('../../utils/auth.js');
+const { ensureRole } = require('../../utils/auth.js');
 const { DEFAULT_TEMPLATE } = require('../../utils/contract-default.js');
 
 // 预览用示例数据（与服务端 renderContract 占位符一致）
@@ -35,7 +35,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     if (!this.data.dirty) this.loadTemplate();
   },
 

@@ -2,6 +2,6 @@
   "navigationBarTitleText": "工作台",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "custom-tab-bar": "/custom-tab-bar/index"
+    "admin-tabbar": "/components/admin-tabbar/index"
   }
 }

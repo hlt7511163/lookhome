@@ -24,6 +24,30 @@
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
 }
 
+.agree-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 28rpx;
+}
+.agree-check {
+  width: 34rpx;
+  height: 34rpx;
+  border: 1rpx solid #c9cdd4;
+  border-radius: 50%;
+  margin-right: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #07C160;
+  flex: 0 0 auto;
+}
+.agree-check-on { border-color: #07C160; background: #f0fdf4; }
+.agree-text { font-size: 24rpx; color: #6b7280; }
+.agree-link { font-size: 24rpx; color: #07C160; }
+
 .form { width: 100%; }
 .input { border: 1px solid #ddd; border-radius: 12rpx; padding: 24rpx; margin-bottom: 30rpx; font-size: 32rpx; background: #fff; }
 .btn { margin-top: 20rpx; width: 100%; border-radius: 12rpx; }

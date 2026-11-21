@@ -38,6 +38,15 @@
 }
 .logout-btn::after { border: none; }
 
+/* 注销账号 */
+.danger-text { color: #cf1322; }
+.logout-tip {
+  padding: 0 28rpx 24rpx;
+  font-size: 22rpx;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
 .version {
   text-align: center;
   font-size: 22rpx;

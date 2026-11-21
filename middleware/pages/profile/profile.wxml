@@ -29,9 +29,17 @@
     </view>
   </view>
 
-  <!-- 退出登录 -->
+  <!-- 退出登录 / 注销账号 -->
   <view class="card">
     <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+  </view>
+
+  <view class="card">
+    <view class="cell" bindtap="requestDelete">
+      <text class="danger-text">⚠️ 注销账号</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="logout-tip">注销后个人信息将被清除、无法恢复；合同与账单按法规留存</view>
   </view>
 
   <view class="version">LookHome 租客端 · v1.0</view>

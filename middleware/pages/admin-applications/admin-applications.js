@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin } = require('../../utils/auth.js');
+const { ensureRole } = require('../../utils/auth.js');
 const { APP_STATUS, PAY_MODE } = require('../../utils/util.js');
 const { buildSearchKey, filterByKeyword } = require('../../utils/search.js');
 
@@ -26,7 +26,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     this.loadApplications();
   },
 

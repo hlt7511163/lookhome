@@ -3,13 +3,21 @@ import { existsSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { initDb, db } from './db.js';
+import { securityHeaders } from './middleware/securityHeaders.js';
+import { auditLog } from './middleware/audit.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 initDb();
 
 const app = express();
+// 反向代理后取真实客户端 IP（登录限流/审计用）
+app.set('trust proxy', true);
+// 安全响应头
+app.use(securityHeaders());
 // 同源部署（nginx 反代），无需跨域；小程序 wx.request 不受浏览器 CORS 限制
 app.use(express.json({ limit: '2mb' }));
+// 审计日志：记录所有写操作与登录接口（失败不影响业务）
+app.use(auditLog());
 
 // 上传目录（租客证件照等）
 const UPLOAD_DIR = process.env.UPLOAD_DIR || join(__dirname, '..', 'data', 'uploads');
@@ -24,6 +32,7 @@ app.get('/api/health', (req, res) => {
 
 // 业务路由
 import authRoutes from './routes/auth.js';
+import authDeleteRoutes from './routes/auth-delete.js';
 import settingsRoutes from './routes/settings.js';
 import dashboardRoutes from './routes/dashboard.js';
 import propertiesRoutes from './routes/properties.js';
@@ -45,6 +54,7 @@ import leaseApplicationsRoutes from './routes/lease-applications.js';
 import demoRoutes from './routes/demo.js';
 
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', authDeleteRoutes); // 租客自助注销
 app.use('/api/settings', settingsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/properties', propertiesRoutes);
@@ -82,8 +92,8 @@ if (existsSync(WEB_DIST)) {
   app.get('*', (req, res) => res.sendFile(join(WEB_DIST, 'index.html')));
 }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, process.env.HOST || '127.0.0.1', () => console.log(`[lookhome] server running at http://${process.env.HOST || '127.0.0.1'}:${PORT}`));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, process.env.HOST || '0.0.0.0', () => console.log(`[lookhome] server running at http://${process.env.HOST || '127.0.0.1'}:${PORT}`));
 
 // 缴费提醒自动任务：启动时跑一次，之后每 6 小时检查（到期日前 3 天下发提醒）
 runAutoReminders();

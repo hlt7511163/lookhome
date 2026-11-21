@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin } = require('../../utils/auth.js');
+const { ensureRole } = require('../../utils/auth.js');
 const { fmtMoney, maskPhone, PAY_MODE } = require('../../utils/util.js');
 
 const STATUS_TEXT = { active: '生效中', ended: '已结束', void: '已作废' };
@@ -35,7 +35,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     if (!this.data.id) {
       wx.showToast({ title: '参数错误', icon: 'none' });
       return;

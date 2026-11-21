@@ -83,6 +83,12 @@
         <text class="cell-arrow">›</text>
       </view>
     </view>
+    <view class="cell" bindtap="goRefunds">
+      <text>🧾 待审批退款</text>
+      <view>
+        <text class="cell-arrow">›</text>
+      </view>
+    </view>
   </view>
 
   <!-- 实收趋势（近 6 个月）-->
@@ -114,7 +120,7 @@
     </view>
   </view>
 
-  <custom-tab-bar />
+  <admin-tabbar />
   <view style="height: 140rpx;"></view>
 </view>
 

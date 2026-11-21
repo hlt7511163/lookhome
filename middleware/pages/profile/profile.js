@@ -98,5 +98,50 @@ Page({
         wx.reLaunch({ url: '/pages/login/login' });
       }
     });
+  },
+
+  // ===== 自助注销账号（微信审核要求）=====
+  // 两步确认：先说明后果，再要求手输「注销」两个字，避免误触
+  requestDelete() {
+    wx.showModal({
+      title: '注销账号',
+      content: '注销后：姓名、手机号、身份证号将被清除且无法恢复；已签合同与账单按法规留存；有未结清账单时无法注销。',
+      confirmText: '继续',
+      success: (r) => {
+        if (r.confirm) this.confirmDelete();
+      }
+    });
+  },
+
+  confirmDelete() {
+    wx.showModal({
+      title: '确认注销',
+      editable: true,
+      placeholderText: '请输入「注销」两个字确认',
+      confirmText: '注销',
+      success: async (r) => {
+        if (!r.confirm) return;
+        if (String(r.content || '').trim() !== '注销') {
+          wx.showToast({ title: '输入不匹配，已取消', icon: 'none' });
+          return;
+        }
+        wx.showToast({ title: '正在注销...', icon: 'loading', duration: 10000 });
+        try {
+          await request('/api/auth/delete-account', 'POST', { confirm: '注销' }, { silent: true });
+          wx.hideToast();
+          clearLogin();
+          wx.showToast({ title: '账号已注销', icon: 'success' });
+          setTimeout(() => wx.reLaunch({ url: '/pages/login/login' }), 800);
+        } catch (e) {
+          wx.hideToast();
+          const msg = (e && (e.message || (e.data && e.data.error))) || '注销失败，请稍后重试';
+          wx.showModal({
+            title: '无法注销',
+            content: msg + '\n\n如服务端尚未开放自助注销，可按《隐私政策》中的联系方式找房东协助处理。',
+            showCancel: false
+          });
+        }
+      }
+    });
   }
 });

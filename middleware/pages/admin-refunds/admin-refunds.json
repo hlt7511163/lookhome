@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "退款审批",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "admin-tabbar": "/components/admin-tabbar/index"
+  }
+}

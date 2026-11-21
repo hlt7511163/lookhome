@@ -27,6 +27,10 @@
       <text>📑 合同管理 / 编辑合同</text>
       <text class="cell-arrow">›</text>
     </view>
+    <view class="cell" bindtap="goRefunds">
+      <text>🧾 退款审批</text>
+      <text class="cell-arrow">›</text>
+    </view>
     <view class="cell" bindtap="goContract">
       <text>📄 合同模板</text>
       <text class="cell-arrow">›</text>
@@ -62,6 +66,6 @@
     </view>
   </view>
 
-  <custom-tab-bar />
+  <admin-tabbar />
   <view style="height: 140rpx;"></view>
 </view>

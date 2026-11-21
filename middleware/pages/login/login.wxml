@@ -12,6 +12,15 @@
     >{{item.text}}</view>
   </view>
 
+  <!-- 用户协议 / 隐私政策 告知同意（未勾选不允许登录或注册）-->
+  <view class="agree-row">
+    <view class="agree-check {{agreed ? 'agree-check-on' : ''}}" bindtap="toggleAgree">{{agreed ? '✓' : ''}}</view>
+    <text class="agree-text" bindtap="toggleAgree">我已阅读并同意</text>
+    <text class="agree-link" catchtap="openPrivacy" data-tab="privacy">《隐私政策》</text>
+    <text class="agree-text">和</text>
+    <text class="agree-link" catchtap="openPrivacy" data-tab="terms">《用户协议》</text>
+  </view>
+
   <!-- 管理员登录（原有）-->
   <view class="form" wx:if="{{mode === 'admin'}}">
     <input class="input" placeholder="请输入账号" data-field="username" bindinput="onInput" />

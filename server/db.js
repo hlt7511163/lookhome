@@ -22,6 +22,8 @@ export function initDb() {
   // 迁移：租客增加创建人（操作员隔离用）
   const tCols = db.prepare('PRAGMA table_info(tenants)').all().map(c => c.name);
   if (!tCols.includes('created_by')) db.exec('ALTER TABLE tenants ADD COLUMN created_by INTEGER');
+  // 迁移：租客注销时间（自助注销留痕）
+  if (!tCols.includes('deleted_at')) db.exec('ALTER TABLE tenants ADD COLUMN deleted_at TEXT');
 
   // 迁移：后台用户绑定邮箱（密码找回用）
   const uCols = db.prepare('PRAGMA table_info(admin_users)').all().map(c => c.name);

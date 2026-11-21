@@ -77,6 +77,6 @@
     </view>
   </view>
 
-  <custom-tab-bar />
+  <admin-tabbar />
   <view style="height: 140rpx;"></view>
 </view>

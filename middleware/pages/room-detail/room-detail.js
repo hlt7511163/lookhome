@@ -38,7 +38,14 @@ Page({
   },
 
   goSign() {
-    wx.navigateTo({ url: '/pages/sign/sign?room_id=' + this.roomId });
+    const room = this.data.room;
+    wx.navigateTo({
+      url: '/pages/sign/sign?room_id=' + this.roomId,
+      // 把已加载的房间数据顺带传过去，签约页无需再拉全量房源
+      success: (res) => {
+        if (room && res && res.eventChannel) res.eventChannel.emit('room', room);
+      }
+    });
   },
 
   callLandlord() {

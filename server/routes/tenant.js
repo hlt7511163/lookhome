@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../db.js';
 import { tenantAuth, signTenantToken } from '../middleware/auth.js';
+import { loginCheck, loginFail, loginReset } from '../middleware/loginGuard.js';
 import { CFG } from './pay.js';
 import { subscribeConfig } from '../wechat-subscribe.js';
 import { idCardVerify, phoneVerify } from '../lib/tencent-idverify.js';
@@ -162,6 +163,12 @@ r.post('/wx-login', async (req, res) => {
 // 实名模式：manual=房东后台人工审核（默认）；auto=腾讯云身份信息核验（二要素，可加手机号三要素）
 // 匹配规则：注册后先与网站租客管理中既有租客匹配，姓名/身份证/手机号任两项一致 → 直接绑定该租客档案
 r.post('/register', async (req, res) => {
+  const _regPhone = String((req.body || {}).phone || '').trim();
+  const _regLc = loginCheck(req, _regPhone);
+  if (_regLc.blocked) {
+    res.set('Retry-After', String(_regLc.retryAfter));
+    return res.status(429).json({ error: `尝试过于频繁，请 ${Math.ceil(_regLc.retryAfter / 60)} 分钟后再试` });
+  }
   const { name, phone, id_card, openid } = req.body || {};
   if (!name || !phone || !id_card) return res.status(400).json({ error: '姓名、手机号、身份证号必填' });
   if (!/^1\d{10}$/.test(phone)) return res.status(400).json({ error: '手机号格式不正确' });
@@ -249,6 +256,12 @@ r.post('/register', async (req, res) => {
 
 // 租客登录（手机号+身份证；可选 openid 完成微信绑定；code 存在时优先走微信快捷登录）
 r.post('/login', async (req, res) => {
+  const _phone = String((req.body || {}).phone || '').trim();
+  const _lc = loginCheck(req, _phone);
+  if (_lc.blocked) {
+    res.set('Retry-After', String(_lc.retryAfter));
+    return res.status(429).json({ error: `尝试过于频繁，请 ${Math.ceil(_lc.retryAfter / 60)} 分钟后再试` });
+  }
   const { phone, id_card, code, openid } = req.body || {};
   let tenant = null;
 
@@ -261,7 +274,8 @@ r.post('/login', async (req, res) => {
         if (!phone) return res.json({ need_bind: true, openid: s.openid, notice: '请用注册的手机号和身份证完成绑定' });
         // 带手机号：继续走手机+身份证校验并绑定该 openid
         tenant = db.prepare('SELECT * FROM tenants WHERE phone=?').get(phone || '');
-        if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) return res.status(400).json({ error: '手机号或身份证号不正确' });
+        if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) loginFail(req, _phone || (req.body || {}).phone);
+        return res.status(400).json({ error: '手机号或身份证号不正确' });
         if (tenant.status === 0) return res.status(403).json({ error: '账号已停用' });
         const holder = db.prepare('SELECT id FROM tenants WHERE wechat_openid=? AND id<>?').get(s.openid, tenant.id);
         if (holder) return res.status(400).json({ error: '该微信已绑定其他账号' });
@@ -277,13 +291,15 @@ r.post('/login', async (req, res) => {
 
   // 手机号+身份证登录（可选 openid 绑定，用于 wx-login 返回 need_bind 后的绑定流程）
   tenant = db.prepare('SELECT * FROM tenants WHERE phone=?').get(phone || '');
-  if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) return res.status(400).json({ error: '手机号或身份证号不正确' });
+  if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) loginFail(req, _phone || (req.body || {}).phone);
+  return res.status(400).json({ error: '手机号或身份证号不正确' });
   if (tenant.status === 0) return res.status(403).json({ error: '账号已停用' });
   if (openid) {
     const holder = db.prepare('SELECT id FROM tenants WHERE wechat_openid=? AND id<>?').get(openid, tenant.id);
     if (holder) return res.status(400).json({ error: '该微信已绑定其他账号' });
     db.prepare(`UPDATE tenants SET wechat_openid=? WHERE id=?`).run(openid, tenant.id);
   }
+  loginReset(req, (req.body || {}).phone);
   res.json({ token: signTenantToken(tenant), openid: openid || tenant.wechat_openid || '', tenant: { id: tenant.id, name: tenant.name, phone: tenant.phone, verify_status: tenant.verify_status }, bound: !!openid });
 });
 

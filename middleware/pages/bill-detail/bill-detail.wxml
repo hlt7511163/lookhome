@@ -2,7 +2,7 @@
   <block wx:if="{{bill}}">
     <!-- 金额头部 -->
     <view class="detail-head">
-      <view class="dh-amount">{{bill.total}}</view>
+      <view class="dh-amount">{{bill.totalText}}</view>
       <view class="dh-label">账单金额（元）</view>
       <view class="dh-tags">
         <text class="tag {{bill.statusClass}}">{{bill.statusText}}</text>
@@ -16,8 +16,8 @@
       <view class="info-row"><text class="info-label">标题</text><text>{{bill.title}}</text></view>
       <view class="info-row" wx:if="{{bill.property_name}}"><text class="info-label">房间</text><text>{{bill.property_name}} · {{bill.room_no}}</text></view>
       <view class="info-row" wx:if="{{bill.tenant_name}}"><text class="info-label">租客</text><text>{{bill.tenant_name}}</text></view>
-      <view class="info-row"><text class="info-label">已付</text><text class="amount-green">¥{{bill.paid_amount || 0}}</text></view>
-      <view class="info-row" wx:if="{{bill.status !== 'paid'}}"><text class="info-label">待付</text><text class="amount-red">¥{{bill.remain}}</text></view>
+      <view class="info-row"><text class="info-label">已付</text><text class="amount-green">¥{{bill.paidText}}</text></view>
+      <view class="info-row" wx:if="{{bill.status !== 'paid'}}"><text class="info-label">待付</text><text class="amount-red">¥{{bill.remainText}}</text></view>
       <view class="info-row" wx:if="{{bill.paid_at}}"><text class="info-label">缴清时间</text><text>{{bill.paid_at}}</text></view>
     </view>
 
@@ -33,7 +33,7 @@
       </view>
       <view class="fee-total">
         <text>合计</text>
-        <text class="amount-red">¥{{bill.total}}</text>
+        <text class="amount-red">¥{{bill.totalText}}</text>
       </view>
     </view>
 
@@ -46,7 +46,7 @@
           <text class="tag {{item.confirm_status === 'confirmed' ? 'st-paid' : 'st-unpaid'}} pay-status">{{item.confirmText}}</text>
         </view>
         <view class="pay-right">
-          <text class="amount">¥{{item.amount}}</text>
+          <text class="amount">¥{{item.amountText}}</text>
           <text class="pay-time">{{item.created_at}}</text>
         </view>
       </view>
@@ -57,14 +57,14 @@
 
   <!-- 租客：立即支付 -->
   <view class="footer-bar" wx:if="{{role === 'tenant' && bill && bill.status !== 'paid' && bill.status !== 'void'}}">
-    <view class="footer-info">待付 <text class="amount-red">¥{{bill.remain}}</text></view>
-    <button class="btn-primary" loading="{{paying}}" bindtap="openPay">立即支付</button>
+    <view class="footer-info">待付 <text class="amount-red">¥{{bill.remainText}}</text></view>
+    <button class="btn-primary" loading="{{paying}}" disabled="{{paying}}" bindtap="openPay">立即支付</button>
   </view>
 
   <!-- 管理端：手工确认收款 -->
   <view class="footer-bar" wx:if="{{role === 'admin' && bill && bill.status !== 'paid' && bill.status !== 'void'}}">
-    <view class="footer-info">待收 <text class="amount-red">¥{{bill.remain}}</text></view>
-    <button class="btn-primary" loading="{{paying}}" bindtap="openManual">手工确认收款</button>
+    <view class="footer-info">待收 <text class="amount-red">¥{{bill.remainText}}</text></view>
+    <button class="btn-primary" loading="{{paying}}" disabled="{{paying}}" bindtap="openManual">手工确认收款</button>
   </view>
 
   <!-- 支付弹窗（租客）-->
@@ -73,20 +73,16 @@
       <view class="modal-title">支付账单</view>
       <view class="modal-row">
         <text class="modal-label">账单金额</text>
-        <text class="amount-red">¥{{bill.total}}</text>
+        <text class="amount-red">¥{{bill.totalText}}</text>
       </view>
       <view class="modal-row">
         <text class="modal-label">待付金额</text>
-        <text class="amount-red">¥{{bill.remain}}</text>
+        <text class="amount-red">¥{{bill.remainText}}</text>
       </view>
-      <view class="form-item">
-        <view class="form-label">支付金额</view>
-        <input class="modal-input" type="digit" value="{{payAmount}}" bindinput="onPayAmount" />
-      </view>
-      <view class="modal-tip">点击「确认支付」后将通过微信支付完成付款；若线上支付未开通，将展示线下转账指引。</view>
+      <view class="modal-tip">支付金额由系统按合同生成，不可修改。确认后将通过微信支付付款；若线上支付未开通，会展示线下转账指引。</view>
       <view class="modal-btns">
         <button class="modal-btn" bindtap="closePay">取消</button>
-        <button class="modal-btn modal-btn-ok" loading="{{paying}}" bindtap="confirmPay">确认支付</button>
+        <button class="modal-btn modal-btn-ok" loading="{{paying}}" disabled="{{paying}}" bindtap="confirmPay">{{payStage === 'confirming' ? '确认中…' : '确认支付'}}</button>
       </view>
     </view>
   </view>
@@ -97,11 +93,11 @@
       <view class="modal-title">手工确认收款</view>
       <view class="modal-row">
         <text class="modal-label">账单金额</text>
-        <text>¥{{bill.total}}</text>
+        <text>¥{{bill.totalText}}</text>
       </view>
       <view class="modal-row">
         <text class="modal-label">待收金额</text>
-        <text class="amount-red">¥{{bill.remain}}</text>
+        <text class="amount-red">¥{{bill.remainText}}</text>
       </view>
       <view class="form-item">
         <view class="form-label">收款金额</view>
@@ -113,7 +109,7 @@
       </view>
       <view class="modal-btns">
         <button class="modal-btn" bindtap="closeManual">取消</button>
-        <button class="modal-btn modal-btn-ok" loading="{{paying}}" bindtap="confirmManual">确认收款</button>
+        <button class="modal-btn modal-btn-ok" loading="{{paying}}" disabled="{{paying}}" bindtap="confirmManual">确认收款</button>
       </view>
     </view>
   </view>

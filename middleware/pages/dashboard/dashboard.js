@@ -1,5 +1,5 @@
 const { request } = require('../../utils/request.js');
-const { ensureLogin } = require('../../utils/auth.js');
+const { ensureRole } = require('../../utils/auth.js');
 const { fmtMoney } = require('../../utils/util.js');
 
 Page({
@@ -10,7 +10,7 @@ Page({
   },
 
   onShow() {
-    if (!ensureLogin()) return;
+    if (!ensureRole('admin')) return;
     this.loadDashboard();
   },
 
@@ -49,10 +49,11 @@ Page({
     this.loadDashboard().finally(() => wx.stopPullDownRefresh());
   },
 
-  goBills() { wx.switchTab({ url: '/pages/admin-bills/admin-bills' }); },
-  goRooms() { wx.switchTab({ url: '/pages/admin-properties/admin-properties' }); },
-  goTenants() { wx.switchTab({ url: '/pages/admin-tenants/admin-tenants' }); },
-  goApplications() { wx.switchTab({ url: '/pages/admin-applications/admin-applications' }); },
+  goBills() { wx.reLaunch({ url: '/pages/admin-bills/admin-bills' }); },
+  goRooms() { wx.reLaunch({ url: '/pages/admin-properties/admin-properties' }); },
+  goTenants() { wx.reLaunch({ url: '/pages/admin-tenants/admin-tenants' }); },
+  goApplications() { wx.reLaunch({ url: '/pages/admin-applications/admin-applications' }); },
+  goRefunds() { wx.navigateTo({ url: '/pages/admin-refunds/admin-refunds' }); },
   // 账号与设置（非 tab 子页：账号信息/修改密码/合同模板/退出登录）
   goProfile() { wx.navigateTo({ url: '/pages/admin-profile/admin-profile' }); },
   goContracts() { wx.navigateTo({ url: '/pages/admin-contracts/admin-contracts' }); },

@@ -30,6 +30,15 @@ Page({
   onLoad(options) {
     if (!ensureLogin()) return;
     this.setData({ roomId: options.room_id || '' });
+    // 优先使用房源详情页通过 eventChannel 传入的房间数据
+    try {
+      const ch = this.getOpenerEventChannel && this.getOpenerEventChannel();
+      if (ch) {
+        ch.on('room', (room) => {
+          if (room) this.applyRoom(room);
+        });
+      }
+    } catch (e) { /* 无 eventChannel 时走接口兜底 */ }
     const t = new Date(Date.now() + 86400000);
     this.setData({ startDate: `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}` });
   },
@@ -39,21 +48,28 @@ Page({
     this.loadRoom();
   },
 
+  // 房间数据落地 + 可签约校验
+  applyRoom(room) {
+    this.setData({ room: { ...room, vacant: room.status === 'vacant' } });
+    if (room.status !== 'vacant') {
+      wx.showModal({
+        title: '不可签约',
+        content: `房间 ${room.room_no} 当前不可签约（非空置）`,
+        showCancel: false,
+        success: () => wx.navigateBack()
+      });
+    }
+  },
+
   async loadRoom() {
+    // 已有房间数据（eventChannel 带入）就不再请求
+    if (this.data.room) return;
     try {
       const res = await request('/api/tenant/properties', 'GET');
       const room = (res.rooms || []).find(r => String(r.id) === String(this.data.roomId));
       if (room) {
         // API 返回 status 字段，需映射为 vacant 供页面使用
-        this.setData({ room: { ...room, vacant: room.status === 'vacant' } });
-        if (room.status !== 'vacant') {
-          wx.showModal({
-            title: '不可签约',
-            content: `房间 ${room.room_no} 当前不可签约（非空置）`,
-            showCancel: false,
-            success: () => wx.navigateBack()
-          });
-        }
+        this.applyRoom(room);
       } else {
         this.setData({ room: null });
       }

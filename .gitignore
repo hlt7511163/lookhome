@@ -32,3 +32,10 @@ _shots/
 .DS_Store
 Thumbs.db
 *.log
+
+# 私有/本地配置与备份
+middleware/project.private.config.json
+middleware/config.local.js
+.bak-*
+*.bak-*
+middleware.old/

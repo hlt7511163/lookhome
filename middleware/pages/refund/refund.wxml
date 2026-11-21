@@ -18,7 +18,7 @@
       <textarea class="remark-input" placeholder="如：合同已到期，费用已结清" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
     </view>
     <button class="btn-primary" loading="{{submitting}}" bindtap="submitApply">提交退押金申请</button>
-    <view class="rule-tip">规则：合同已到期且无未缴账单方可申请；房东同意后退款原路返回，合同自动解除。</view>
+    <view class="rule-tip">规则：合同已到期且无未缴账单方可申请；房东在「退款审批」中通过后办理退款——线上支付的款项按原路退回，线下支付的由房东线下退还，合同同步解除。</view>
   </view>
 
   <view class="card" wx:elif="{{!contract}}">

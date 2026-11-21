@@ -1,0 +1,30 @@
+.page { padding: 24rpx 24rpx 60rpx; background: #f5f7fa; }
+
+.doc-head { padding: 16rpx 8rpx 8rpx; }
+.doc-title { font-size: 36rpx; font-weight: 600; color: #1f2937; }
+.doc-sub { margin-top: 8rpx; font-size: 22rpx; color: #9ca3af; }
+
+.tabs { display: flex; margin: 16rpx 0 8rpx; }
+.tab {
+  padding: 12rpx 28rpx;
+  margin-right: 16rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+  background: #ffffff;
+  border-radius: 32rpx;
+  border: 1rpx solid #e5e7eb;
+}
+.tab-on { color: #07C160; border-color: #07C160; background: #f0fdf4; }
+
+.card {
+  margin-top: 16rpx;
+  padding: 28rpx 24rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+}
+.sec-title { font-size: 28rpx; font-weight: 600; color: #1f2937; margin-bottom: 12rpx; }
+.sec-item { display: flex; margin-top: 10rpx; }
+.dot { color: #07C160; margin-right: 10rpx; font-size: 24rpx; line-height: 40rpx; }
+.line { flex: 1; font-size: 24rpx; line-height: 40rpx; color: #4b5563; }
+
+.foot-tip { margin-top: 24rpx; text-align: center; font-size: 22rpx; color: #9ca3af; }
