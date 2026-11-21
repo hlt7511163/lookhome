@@ -9,6 +9,11 @@ import { auditLog } from './middleware/audit.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 initDb();
 
+// 生产环境必须注入 JWT_SECRET：它同时是 token 签名密钥与身份证加密密钥的派生源
+if (!process.env.JWT_SECRET) {
+  console.warn('[security] 未设置 JWT_SECRET，正在使用公开默认值——生产环境禁止如此！');
+}
+
 const app = express();
 // 反向代理后取真实客户端 IP（登录限流/审计用）
 app.set('trust proxy', true);
