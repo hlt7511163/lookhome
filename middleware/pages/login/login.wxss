@@ -69,3 +69,17 @@
   font-size: 22rpx;
   color: #9ca3af;
 }
+
+/* 登录被锁定的提示条 */
+.lock-banner {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  background: #fff4e5;
+  border: 1rpx solid #f5c26b;
+  color: #b26a00;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
