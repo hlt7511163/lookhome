@@ -14,12 +14,25 @@ r.post('/login', async (req, res) => {
   const lc = loginCheck(req, username);
   if (lc.blocked) {
     res.set('Retry-After', String(lc.retryAfter));
-    return res.status(429).json({ error: `尝试过于频繁，请 ${Math.ceil(lc.retryAfter / 60)} 分钟后再试` });
+    return res.status(429).json({
+      error: `尝试过于频繁，请 ${Math.ceil(lc.retryAfter / 60)} 分钟后再试`,
+      locked: true, retryAfter: lc.retryAfter, remaining: 0
+    });
   }
   const u = db.prepare('SELECT * FROM admin_users WHERE username=? AND status=1').get(String(username || ''));
   if (!u || !bcrypt.compareSync(String(password || ''), u.password_hash)) {
-    loginFail(req, username);
-    return res.status(400).json({ error: '用户名或密码错误' });
+    const rf = loginFail(req, username);
+    if (rf.locked) {
+      res.set('Retry-After', String(rf.retryAfter));
+      return res.status(429).json({
+        error: `尝试次数过多，已锁定 ${Math.ceil(rf.retryAfter / 60)} 分钟`,
+        locked: true, retryAfter: rf.retryAfter, remaining: 0
+      });
+    }
+    return res.status(400).json({
+      error: '用户名或密码错误',
+      remaining: rf.remaining, max: rf.max, locked: false
+    });
   }
   loginReset(req, username);
   // 可选：登录成功后绑定当前微信 openid（小程序管理员自动登录用）

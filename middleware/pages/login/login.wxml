@@ -21,9 +21,10 @@
     <text class="agree-link" catchtap="openPrivacy" data-tab="terms">《用户协议》</text>
   </view>
 
-  <!-- 登录锁定提示（服务端 429 后进入倒计时）-->
-  <view class="lock-banner" wx:if="{{lockLeft > 0}}">
-    尝试次数过多，已锁定。请等待 {{lockLeft}} 秒后再试。
+  <!-- 登录失败 / 锁定 提示（密码错误次数、解锁倒计时）-->
+  <view class="lock-banner" wx:if="{{attemptHint || lockLeft > 0}}">
+    <view wx:if="{{attemptHint}}">{{attemptHint}}</view>
+    <view wx:if="{{lockLeft > 0}}" class="lock-count">解锁倒计时：{{lockLeft}} 秒</view>
   </view>
 
   <!-- 管理员登录（原有）-->

@@ -274,8 +274,14 @@ r.post('/login', async (req, res) => {
         if (!phone) return res.json({ need_bind: true, openid: s.openid, notice: '请用注册的手机号和身份证完成绑定' });
         // 带手机号：继续走手机+身份证校验并绑定该 openid
         tenant = db.prepare('SELECT * FROM tenants WHERE phone=?').get(phone || '');
-        if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) loginFail(req, _phone || (req.body || {}).phone);
-        return res.status(400).json({ error: '手机号或身份证号不正确' });
+        if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) {
+          const _rf = loginFail(req, _phone || (req.body || {}).phone);
+          if (_rf.locked) {
+            res.set('Retry-After', String(_rf.retryAfter));
+            return res.status(429).json({ error: `尝试次数过多，已锁定 ${Math.ceil(_rf.retryAfter / 60)} 分钟`, locked: true, retryAfter: _rf.retryAfter, remaining: 0 });
+          }
+          return res.status(400).json({ error: '手机号或身份证号不正确', remaining: _rf.remaining, max: _rf.max, locked: false });
+        }
         if (tenant.status === 0) return res.status(403).json({ error: '账号已停用' });
         const holder = db.prepare('SELECT id FROM tenants WHERE wechat_openid=? AND id<>?').get(s.openid, tenant.id);
         if (holder) return res.status(400).json({ error: '该微信已绑定其他账号' });
@@ -291,8 +297,14 @@ r.post('/login', async (req, res) => {
 
   // 手机号+身份证登录（可选 openid 绑定，用于 wx-login 返回 need_bind 后的绑定流程）
   tenant = db.prepare('SELECT * FROM tenants WHERE phone=?').get(phone || '');
-  if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) loginFail(req, _phone || (req.body || {}).phone);
-  return res.status(400).json({ error: '手机号或身份证号不正确' });
+  if (!tenant || String(id_card || '').toUpperCase() !== String(decIdCard(tenant.id_card_enc) || '').toUpperCase()) {
+    const _rf = loginFail(req, _phone || (req.body || {}).phone);
+    if (_rf.locked) {
+      res.set('Retry-After', String(_rf.retryAfter));
+      return res.status(429).json({ error: `尝试次数过多，已锁定 ${Math.ceil(_rf.retryAfter / 60)} 分钟`, locked: true, retryAfter: _rf.retryAfter, remaining: 0 });
+    }
+    return res.status(400).json({ error: '手机号或身份证号不正确', remaining: _rf.remaining, max: _rf.max, locked: false });
+  }
   if (tenant.status === 0) return res.status(403).json({ error: '账号已停用' });
   if (openid) {
     const holder = db.prepare('SELECT id FROM tenants WHERE wechat_openid=? AND id<>?').get(openid, tenant.id);

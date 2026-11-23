@@ -22,6 +22,8 @@ Page({
     submitting: false,
     // 服务端返回 429 时的锁定倒计时（秒）；>0 时禁止再次提交
     lockLeft: 0,
+    // 登录失败提示（如「密码错误，还可尝试 3 次」）
+    attemptHint: '',
     // 微信一键登录返回 need_bind 时携带的 openid，用于后续手机号+身份证登录/注册时完成绑定
     bindOpenid: ''
   },
@@ -79,24 +81,48 @@ Page({
   // 会把它立刻关掉，用户看不到任何反馈。这里统一改成显式提示 + 被锁时倒计时禁用按钮。
   showAuthError(error, fallback) {
     const status = (error && error.statusCode) || 0;
-    const msg = (error && (error.message || (error.data && error.data.error))) || fallback || '登录失败';
+    const d = (error && error.data) || {};
+    const msg = (error && (error.message || d.error)) || fallback || '登录失败';
     wx.hideToast(); // 关掉「登录中...」的 loading
 
     if (status === 429) {
-      const mins = /(\d+)\s*分钟/.exec(msg);
-      const sec = mins ? parseInt(mins[1], 10) * 60 : 60;
+      // 服务端直接返回秒数（fields: retryAfter），比从文案里解析可靠
+      const sec = Number(d.retryAfter) > 0 ? Number(d.retryAfter) : 900;
       this.startLock(sec);
+      this.setData({
+        attemptHint: '密码错误次数过多，账号已锁定，解锁前无法继续登录。'
+      });
       wx.showModal({
-        title: '尝试次数过多',
-        content: msg + '\n\n锁定期间无法继续尝试，请稍后再登录。',
+        title: '账号已锁定',
+        content: `连续输错 ${d.max || 5} 次密码，请 ${this.fmtLeft(sec)}后再试。`,
         showCancel: false,
         confirmText: '知道了'
       });
       return;
     }
 
+    // 密码错误但还可继续：显示「还能试几次」
+    if (typeof d.remaining === 'number') {
+      const left = d.remaining;
+      const max = d.max || 5;
+      const hint = left > 0
+        ? `密码错误，还可尝试 ${left} 次（再错 ${left} 次将锁定 15 分钟）`
+        : `密码错误，已达上限，账号已锁定`;
+      this.setData({ attemptHint: hint });
+      wx.showToast({ title: `密码错误，还可尝试 ${left} 次`, icon: 'none', duration: 2500 });
+      return;
+    }
+
     // 400/403/网络失败：把服务端原话显示出来（不再吞掉）
     wx.showToast({ title: msg, icon: 'none', duration: 2500 });
+  },
+
+  // 秒数转「X 分 Y 秒」
+  fmtLeft(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    if (m > 0) return `${m} 分 ${s} 秒`;
+    return `${s} 秒`;
   },
 
   // 锁定倒计时：按钮禁用 + 显示剩余时间
@@ -108,7 +134,7 @@ Page({
       if (left <= 0) {
         clearInterval(this._lockTimer);
         this._lockTimer = null;
-        this.setData({ lockLeft: 0 });
+        this.setData({ lockLeft: 0, attemptHint: '' });
       } else {
         this.setData({ lockLeft: left });
       }
@@ -153,6 +179,7 @@ Page({
 
       const token = res.token || res.access_token || (res.data && res.data.token);
       if (token) {
+        this.setData({ attemptHint: '' });
         saveLogin(token, { role: 'admin', user: res.user || null });
         wx.showToast({ title: '登录成功', icon: 'success' });
         setTimeout(() => {
