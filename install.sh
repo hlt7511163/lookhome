@@ -18,7 +18,7 @@
 set -euo pipefail
 
 # ---------------- 0. 确定执行环境（支持远程管道执行） ----------------
-REPO_OWNER="${LOOKHOME_REPO_OWNER:-meagoco}"
+REPO_OWNER="${LOOKHOME_REPO_OWNER:-hlt7511163}"
 REPO_NAME="${LOOKHOME_REPO_NAME:-lookhome}"
 REPO_BRANCH="${LOOKHOME_REPO_BRANCH:-main}"
 GH_PROXY="${LOOKHOME_GH_PROXY:-}"   # 可选：GitHub 加速前缀，如 https://ghproxy.com/
@@ -87,6 +87,18 @@ echo ""
 echo "==> [2/6] 安装依赖（首次约 1-3 分钟）"
 if command -v npm >/dev/null 2>&1; then
   npm install --omit=dev --no-audit --no-fund
+
+  # 后台管理界面：仓库已内置 web/dist，缺失时自动构建（需要网络与 devDependencies）
+  if [ ! -f "web/dist/index.html" ]; then
+    echo "      未找到前端构建产物 web/dist，正在构建..."
+    if ( cd web && npm install --no-audit --no-fund && npm run build ); then
+      echo "      前端构建完成 ✓"
+    else
+      echo "[警告] 前端构建失败，后台网页界面将不可用。可稍后手动执行：cd web && npm install && npm run build"
+    fi
+  else
+    echo "      使用仓库内置的前端产物 web/dist ✓"
+  fi
 else
   echo "[错误] 未找到 npm"
   exit 1

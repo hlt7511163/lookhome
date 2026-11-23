@@ -2,7 +2,7 @@
 node_modules/
 web/node_modules/
 server/node_modules/
-web/dist/
+# web/dist/  —— 前端构建产物，为保证「clone 即可用」已入库
 
 # 运行时数据（敏感，不入库）
 data/

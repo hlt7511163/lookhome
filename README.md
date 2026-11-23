@@ -14,6 +14,7 @@
 git clone https://github.com/hlt7511163/lookhome.git
 cd lookhome && npm install
 JWT_SECRET="$(openssl rand -hex 32)" npm start   # 默认 http://127.0.0.1:3001
+# 后台网页界面已随仓库提供（web/dist），直接访问根路径即可；改前端再 `npm run build:web`
 ```
 
 | 目录 | 内容 |
@@ -89,14 +90,14 @@ JWT_SECRET="$(openssl rand -hex 32)" npm start   # 默认 http://127.0.0.1:3001
 ### 方式一：复制一条命令（推荐）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/meagoco/lookhome/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/hlt7511163/lookhome/main/install.sh | sudo bash
 ```
 
 > **国内 / 海外低延迟服务器加速**：若 GitHub 直连较慢，可先设置代理前缀再执行：
 >
 > ```bash
 > export LOOKHOME_GH_PROXY=https://ghproxy.com/
-> curl -fsSL https://cdn.jsdelivr.net/gh/meagoco/lookhome@main/install.sh | sudo bash
+> curl -fsSL https://cdn.jsdelivr.net/gh/hlt7511163/lookhome@main/install.sh | sudo bash
 > ```
 >
 > `LOOKHOME_GH_PROXY` 会同时作用于脚本内部的项目包下载（jsdelivr 仅代理脚本本身，包下载走代理前缀）。
@@ -133,7 +134,7 @@ curl -fsSL https://raw.githubusercontent.com/meagoco/lookhome/main/install.sh | 
 
 ```bash
 # 下载代码
-git clone https://github.com/meagoco/lookhome.git
+git clone https://github.com/hlt7511163/lookhome.git
 cd lookhome
 
 # 安装依赖
